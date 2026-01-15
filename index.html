@@ -3,125 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArcesNW | Marjinal Hub Deneyimi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>ArcesNW | Marjinal Hub Sunucusu</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&family=Outfit:wght@100;400;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <style>
-        :root { --main-blue: #00d2ff; --dark-bg: #050505; --glass: rgba(255, 255, 255, 0.03); }
-        body { background: var(--dark-bg); color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; overflow-x: hidden; scroll-behavior: smooth; }
-        
-        /* Arkaplan Işıltıları */
-        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #102a43 0%, #050505 100%); }
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --accent: #ff00c1;
+            --bg: #030305;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.08);
+            --glow: rgba(0, 210, 255, 0.4);
+        }
 
-        /* Hero */
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        .logo { font-family: 'Orbitron', sans-serif; font-size: clamp(3rem, 15vw, 8rem); font-weight: 900; letter-spacing: 15px; background: linear-gradient(to right, #fff, var(--main-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 30px rgba(0, 210, 255, 0.5)); }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-        /* IP Box */
-        .ip-box { margin-top: 30px; background: var(--glass); border: 1px solid rgba(0, 210, 255, 0.3); padding: 20px 45px; border-radius: 100px; cursor: pointer; backdrop-filter: blur(10px); transition: 0.4s; }
-        .ip-box:hover { transform: scale(1.05); border-color: var(--main-blue); box-shadow: 0 0 30px rgba(0, 210, 255, 0.2); }
-        .ip-text { font-family: 'Orbitron', sans-serif; color: var(--main-blue); font-size: 1.5rem; letter-spacing: 2px; }
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-        /* Section Title */
-        .section-title { text-align: center; font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin: 80px 0 40px; color: #fff; letter-spacing: 5px; }
+        /* Arkaplan Animasyonu */
+        .animated-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #0a192f 0%, #030305 100%);
+            z-index: -2;
+        }
 
-        /* Container */
-        .container { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; padding: 0 20px; max-width: 1200px; margin: 0 auto; }
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(0, 210, 255, 0.05) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(0, 210, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            mask-image: radial-gradient(circle, black 40%, transparent 90%);
+        }
 
-        /* Card Style */
-        .card { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05); padding: 40px 30px; border-radius: 25px; width: 280px; text-align: center; transition: 0.5s; backdrop-filter: blur(15px); }
-        .card:hover { transform: translateY(-15px); border-color: var(--main-blue); background: rgba(0, 210, 255, 0.05); }
-        .card i { font-size: 3.5rem; color: var(--main-blue); margin-bottom: 20px; }
-        .card h3 { font-family: 'Orbitron', sans-serif; margin-bottom: 15px; }
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+        }
 
-        /* Yetkililer */
-        .staff-card { width: 220px; padding: 25px; }
-        .staff-img { width: 100px; height: 100px; background: #222; border-radius: 50%; margin: 0 auto 15px; border: 2px solid var(--main-blue); overflow: hidden; }
-        .staff-img img { width: 100%; height: 100%; object-fit: cover; }
-        .rank { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--main-blue); font-weight: bold; }
+        .hero-title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(3rem, 15vw, 9rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 25px;
+            background: linear-gradient(to bottom, #fff 40%, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 50px rgba(0, 210, 255, 0.3));
+            margin-bottom: 20px;
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 50px;
+        }
+
+        /* IP Copy Box */
+        .ip-wrapper {
+            position: relative;
+            padding: 2px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+            background-size: 200% auto;
+            animation: gradientMove 3s linear infinite;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .ip-content {
+            background: var(--bg);
+            padding: 18px 50px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ip-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: #fff;
+            letter-spacing: 3px;
+        }
+
+        /* Modern Buttons */
+        .btn-group {
+            display: flex;
+            gap: 25px;
+            margin-top: 60px;
+        }
+
+        .m-btn {
+            padding: 20px 45px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.5s;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            color: #fff;
+        }
+
+        .m-btn.shop { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); }
+        .m-btn:hover { transform: translateY(-10px); background: var(--primary); color: #000; box-shadow: 0 20px 40px rgba(0, 210, 255, 0.4); }
+
+        /* Game Modes */
+        .section { padding: 150px 10vw; position: relative; }
+        .stitle { font-family: 'Syncopate', sans-serif; font-size: 2.5rem; margin-bottom: 80px; text-align: center; color: var(--primary); }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .mode-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 50px;
+            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-card::before {
+            content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .mode-card:hover { transform: scale(1.05); border-color: var(--primary); background: rgba(0, 210, 255, 0.05); }
+        .mode-card:hover::before { left: 100%; }
+
+        .mode-card i { font-size: 4rem; margin-bottom: 30px; background: linear-gradient(var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .mode-card h3 { font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 15px; }
+
+        /* Staff Section */
+        .staff-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .staff-card {
+            width: 280px;
+            text-align: center;
+        }
+
+        .avatar-frame {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 25px;
+            position: relative;
+            padding: 10px;
+            border-radius: 40px;
+            background: linear-gradient(45deg, var(--primary), transparent);
+        }
+
+        .avatar-frame img {
+            width: 100%; height: 100%; border-radius: 30px; background: #111; object-fit: cover;
+        }
+
+        .staff-rank { color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; margin-bottom: 10px; }
+        .staff-name { font-size: 1.5rem; font-weight: 900; font-family: 'Outfit', sans-serif; }
 
         /* Footer */
-        footer { padding: 50px; text-align: center; opacity: 0.5; font-size: 0.8rem; }
+        footer { padding: 80px; text-align: center; border-top: 1px solid var(--border); background: #010101; }
 
-        /* Toast */
-        #toast { visibility: hidden; background: var(--main-blue); color: #000; padding: 15px 40px; border-radius: 50px; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-weight: 900; z-index: 100; }
-        #toast.show { visibility: visible; animation: fadeInUp 0.5s, fadeOut 0.5s 2.5s; }
+        /* Toast Popup */
+        #toast {
+            visibility: hidden;
+            position: fixed;
+            bottom: 50px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #000;
+            padding: 20px 60px;
+            border-radius: 20px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 50px rgba(0, 210, 255, 0.5);
+            z-index: 9999;
+        }
+        #toast.show { visibility: visible; animation: fadeInUp 0.5s; }
     </style>
 </head>
 <body>
 
-<div class="bg-glow"></div>
+    <div class="animated-bg"></div>
+    <div class="grid-overlay"></div>
 
-<section class="hero animate__animated animate__fadeIn">
-    <h1 class="logo">ARCESNW</h1>
-    <p style="letter-spacing: 8px; font-weight: 300; opacity: 0.7;">GELECEĞİN HUB SUNUCUSU</p>
-    
-    <div class="ip-box animate__animated animate__zoomIn" onclick="copyIP()">
-        <span class="ip-text" id="ip">PLAY.ARCESNW.COM</span>
-        <div style="font-size: 0.6rem; opacity: 0.5; margin-top: 5px;">KOPYALAMAK İÇİN TIKLA</div>
-    </div>
+    <section class="hero">
+        <h1 class="hero-title animate__animated animate__zoomIn">ARCESNW</h1>
+        <p class="hero-subtitle animate__animated animate__fadeIn">Yeni Nesil Hub Deneyimi</p>
 
-    <div style="margin-top: 40px; display: flex; gap: 20px;">
-        <a href="#" class="btn" style="text-decoration:none; color:#fff; border:1px solid var(--main-blue); padding:15px 40px; border-radius:10px; font-weight:bold; background: rgba(0,210,255,0.1);">MAĞAZA</a>
-        <a href="#" class="btn" style="text-decoration:none; color:#fff; border:1px solid #5865F2; padding:15px 40px; border-radius:10px; font-weight:bold; background: rgba(88,101,242,0.1);">DISCORD</a>
-    </div>
-</section>
+        <div class="ip-wrapper animate__animated animate__fadeInUp" onclick="copyIP()">
+            <div class="ip-content">
+                <i class="fas fa-gamepad" style="color: var(--primary)"></i>
+                <span class="ip-text" id="ip">PLAY.ARCESNW.COM</span>
+            </div>
+        </div>
 
-<div class="section-title">OYUN MODLARI</div>
-<div class="container">
-    <div class="card">
-        <i class="fas fa-sword"></i>
-        <h3>SURVIVAL</h3>
-        <p>Gelişmiş ekonomi ve adaletli bir hayatta kalma serüveni.</p>
-    </div>
-    <div class="card">
-        <i class="fas fa-cloud"></i>
-        <h3>SKYBLOCK</h3>
-        <p>Adanı kur, imparatorluğunu yönet, zirveye yerleş.</p>
-    </div>
-    <div class="card">
-        <i class="fas fa-fire"></i>
-        <h3>BEDWARS</h3>
-        <p>Hızlı, aksiyon dolu ve rekabetçi yatak savaşları.</p>
-    </div>
-</div>
+        <div class="btn-group animate__animated animate__fadeInUp">
+            <a href="#" class="m-btn shop"><i class="fas fa-shopping-basket"></i> Mağaza</a>
+            <a href="#" class="m-btn"><i class="fab fa-discord"></i> Discord</a>
+            <a href="#modes" class="m-btn"><i class="fas fa-map"></i> Keşfet</a>
+        </div>
+    </section>
 
-<div class="section-title">YETKİLİ EKİBİ</div>
-<div class="container">
-    <div class="card staff-card">
-        <div class="staff-img"><img src="https://minotar.net/armor/bust/Steve/100.png" alt="Admin"></div>
-        <div class="rank">Kurucu</div>
-        <div style="font-weight: bold; margin-top: 5px;">Yönetici_Adı</div>
-    </div>
-    <div class="card staff-card">
-        <div class="staff-img"><img src="https://minotar.net/armor/bust/Alex/100.png" alt="Admin"></div>
-        <div class="rank">Admin</div>
-        <div style="font-weight: bold; margin-top: 5px;">Admin_Adı</div>
-    </div>
-    <div class="card staff-card">
-        <div class="staff-img"><img src="https://minotar.net/armor/bust/MHF_Steve/100.png" alt="Admin"></div>
-        <div class="rank">Rehber</div>
-        <div style="font-weight: bold; margin-top: 5px;">Rehber_Adı</div>
-    </div>
-</div>
+    <section class="section" id="modes">
+        <h2 class="stitle">OYUN MODLARI</h2>
+        <div class="game-grid">
+            <div class="mode-card">
+                <i class="fas fa-axe"></i>
+                <h3>Survival</h3>
+                <p>Zorlu doğa, özel klan sistemleri ve adaletli ekonomi ile gerçek hayatta kalma.</p>
+            </div>
+            <div class="mode-card">
+                <i class="fas fa-cubes"></i>
+                <h3>Skyblock</h3>
+                <p>Boşlukta bir ada, sınırsız gelişim ve devasa bir pazar ağı.</p>
+            </div>
+            <div class="mode-card">
+                <i class="fas fa-shield-halved"></i>
+                <h3>BedWars</h3>
+                <p>Hız, strateji ve takım oyunu. Yatağını koru, rakiplerini yok et.</p>
+            </div>
+        </div>
+    </section>
 
-<footer>
-    &copy; 2024 ArcesNW. Tüm Hakları Saklıdır. <br>
-    Minecraft ile bir ilgisi yoktur.
-</footer>
+    <section class="section">
+        <h2 class="stitle">YÖNETİM EKİBİ</h2>
+        <div class="staff-grid">
+            <div class="staff-card">
+                <div class="avatar-frame">
+                    <img src="https://minotar.net/armor/bust/MHF_Steve/128.png" alt="Yönetici">
+                </div>
+                <div class="staff-rank">Kurucu</div>
+                <div class="staff-name">ArcesAdmin</div>
+            </div>
+            <div class="staff-card">
+                <div class="avatar-frame">
+                    <img src="https://minotar.net/armor/bust/MHF_Alex/128.png" alt="Yönetici">
+                </div>
+                <div class="staff-rank">Admin</div>
+                <div class="staff-name">StaffMember</div>
+            </div>
+        </div>
+    </section>
 
-<div id="toast">IP ADRESI KOPYALANDI!</div>
+    <footer>
+        <h2 style="font-family: 'Syncopate'; font-size: 1.5rem; margin-bottom: 20px;">ARCESNW</h2>
+        <p style="opacity: 0.5;">© 2026 ArcesNW. Bu site bir Minecraft topluluk tasarımıdır.</p>
+    </footer>
 
-<script>
-    function copyIP() {
-        const ip = document.getElementById('ip').innerText;
-        navigator.clipboard.writeText(ip);
-        const toast = document.getElementById("toast");
-        toast.className = "show";
-        setTimeout(() => { toast.className = ""; }, 3000);
-    }
-</script>
+    <div id="toast">IP ADRESI KOPYALANDI!</div>
 
+    <script>
+        function copyIP() {
+            const ip = document.getElementById('ip').innerText;
+            navigator.clipboard.writeText(ip);
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(() => { toast.className = ""; }, 3000);
+        }
+
+        // Fare hareketine göre arka planı biraz kaydır (Parallax)
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            document.querySelector('.grid-overlay').style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+        });
+    </script>
 </body>
 </html>
