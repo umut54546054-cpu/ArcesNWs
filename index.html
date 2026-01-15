@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCESNW | SUPREME WEB PORTAL v11.0</title>
+    <title>ARCESNW | SUPREME HUB v12.0 [ULTIMATE]</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Outfit:wght@100;300;400;600;700;900&family=JetBrains+Mono:wght@100;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,281 +12,226 @@
 
     <style>
         /* ==========================================================================
-           ARCESNW MASTER STYLESHEET (SATIR 25 - 450)
+           ARCESNW CORE ENGINE STYLES
            ==========================================================================
         */
         :root {
-            --p: #00f2ff; --s: #7000ff; --a: #ff0055; --bg: #030305;
+            --p: #00f2ff; --s: #7000ff; --a: #ff0055; --bg: #030308;
             --glass: rgba(255, 255, 255, 0.02);
             --border: rgba(255, 255, 255, 0.08);
             --f-logo: 'Syncopate', sans-serif;
             --f-main: 'Outfit', sans-serif;
             --f-mono: 'JetBrains Mono', monospace;
-            --glow: 0 0 30px rgba(0, 242, 255, 0.3);
+            --glow: 0 0 25px rgba(0, 242, 255, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        /* RESET & HIDDEN CURSOR */
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; cursor: none !important; }
         body { background: var(--bg); color: #fff; font-family: var(--f-main); overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 3px; background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--p); }
 
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 4px; background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--p); box-shadow: var(--glow); }
+        /* DYNAMIC CURSOR ELEMENTS */
+        #cursor-dot {
+            width: 8px; height: 8px; background: var(--p); border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 10001; box-shadow: var(--glow);
+            transition: transform 0.1s ease-out;
+        }
+        #cursor-outline {
+            width: 40px; height: 40px; border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 10000;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), width 0.3s, height 0.3s, background 0.3s;
+        }
 
         /* BACKGROUND ENGINE */
-        .bg-engine { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
-        .grid { position: absolute; width: 200%; height: 200%; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 100px 100px; transform: perspective(1000px) rotateX(60deg) translateY(-20%); opacity: 0.1; animation: gridRun 20s linear infinite; }
-        @keyframes gridRun { from { background-position: 0 0; } to { background-position: 0 100px; } }
-        .orb { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, var(--s) 0%, transparent 70%); filter: blur(100px); opacity: 0.1; border-radius: 50%; }
+        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; overflow: hidden; }
+        .grid { 
+            position: absolute; width: 200%; height: 200%; 
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); 
+            background-size: 80px 80px; transform: perspective(500px) rotateX(60deg) translateY(-20%); 
+            opacity: 0.15; animation: gridMove 15s linear infinite; 
+        }
+        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 0 80px; } }
+        .nebula { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, var(--s) 0%, transparent 70%); filter: blur(120px); opacity: 0.1; }
 
-        /* NAVIGATION - MARJİNAL */
-        nav { position: fixed; top: 0; width: 100%; padding: 40px 8%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: 0.6s; }
-        nav.scrolled { background: rgba(3,3,5,0.9); backdrop-filter: blur(20px); padding: 15px 8%; border-bottom: 1px solid var(--border); }
-        .logo { font-family: var(--f-logo); font-size: 1.4rem; letter-spacing: 6px; text-decoration: none; color: #fff; font-weight: 700; }
+        /* NAVIGATION */
+        nav { position: fixed; top: 0; width: 100%; padding: 40px 8%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: 0.5s; }
+        nav.sticky { background: rgba(3,3,8,0.95); backdrop-filter: blur(15px); padding: 15px 8%; border-bottom: 1px solid var(--border); }
+        .logo { font-family: var(--f-logo); font-size: 1.3rem; letter-spacing: 5px; text-decoration: none; color: #fff; font-weight: 700; }
         .logo span { color: var(--p); text-shadow: var(--glow); }
         .nav-links { display: flex; gap: 40px; list-style: none; }
-        .nav-links a { text-decoration: none; color: rgba(255,255,255,0.4); font-size: 0.7rem; font-family: var(--f-logo); transition: 0.4s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--p); text-shadow: var(--glow); }
+        .nav-links a { text-decoration: none; color: rgba(255,255,255,0.4); font-size: 0.7rem; font-family: var(--f-logo); transition: 0.3s; }
+        .nav-links a:hover { color: var(--p); }
 
-        /* HERO - CINEMATIC */
-        .hero { height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .hero-content { text-align: center; z-index: 10; }
-        .hero-h1 { font-family: var(--f-logo); font-size: 8vw; line-height: 0.8; font-weight: 900; position: relative; }
-        .hero-h1 b { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.2); }
+        /* HERO */
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        .hero-h1 { font-family: var(--f-logo); font-size: 9vw; line-height: 0.8; text-align: center; }
+        .hero-h1 b { -webkit-text-stroke: 1px rgba(255,255,255,0.1); color: transparent; }
         .hero-h1 span { display: block; color: var(--p); text-shadow: var(--glow); }
-        .ip-card { margin-top: 50px; background: var(--glass); border: 1px solid var(--border); padding: 30px 60px; border-radius: 10px; cursor: pointer; transition: 0.5s; display: inline-flex; align-items: center; gap: 20px; }
-        .ip-card:hover { border-color: var(--p); transform: translateY(-10px); box-shadow: var(--glow); }
-        .ip-card i { color: var(--p); font-size: 1.5rem; }
+        .ip-engine { 
+            margin-top: 60px; padding: 25px 50px; background: var(--glass); border: 1px solid var(--border); 
+            border-radius: 5px; backdrop-filter: blur(10px); transition: 0.5s; text-align: center;
+        }
+        .ip-engine:hover { border-color: var(--p); transform: translateY(-10px); box-shadow: var(--glow); }
+        .ip-text { font-family: var(--f-mono); font-size: 1.8rem; letter-spacing: 8px; font-weight: 900; }
 
-        /* GENEL BÖLÜM YAPISI */
-        section { padding: 180px 10%; position: relative; }
-        .section-header { margin-bottom: 120px; }
-        .section-header span { font-family: var(--f-mono); color: var(--p); letter-spacing: 10px; font-size: 0.8rem; text-transform: uppercase; }
-        .section-header h2 { font-family: var(--f-logo); font-size: 4rem; margin-top: 20px; letter-spacing: -2px; }
+        /* SECTIONS */
+        section { padding: 150px 10%; border-bottom: 1px solid var(--border); }
+        .sec-head { margin-bottom: 100px; border-left: 4px solid var(--p); padding-left: 30px; }
+        .sec-head h2 { font-family: var(--f-logo); font-size: 3.5rem; letter-spacing: -2px; }
+        .sec-head span { font-family: var(--f-mono); color: var(--p); font-size: 0.8rem; letter-spacing: 5px; }
 
-        /* MARKET ENGINE - GÜCEL KOLEKSİYON (SATIR 200+) */
-        .market-wrap { display: grid; grid-template-columns: 300px 1fr; gap: 60px; }
-        .filter-list { display: flex; flex-direction: column; gap: 15px; }
-        .f-btn { padding: 25px; background: var(--glass); border: 1px solid var(--border); color: #fff; font-family: var(--f-logo); font-size: 0.6rem; letter-spacing: 2px; text-align: left; cursor: pointer; transition: 0.3s; }
-        .f-btn.active, .f-btn:hover { background: var(--p); color: #000; border-color: var(--p); }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .product-card { background: var(--glass); border: 1px solid var(--border); padding: 50px; position: relative; overflow: hidden; }
-        .product-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--p); }
-        .p-title { font-family: var(--f-logo); font-size: 1.2rem; margin-bottom: 10px; }
-        .p-price { font-size: 3rem; font-weight: 900; margin: 30px 0; font-family: 'Outfit'; }
-        .p-price small { font-size: 1rem; opacity: 0.3; }
-        .p-features { list-style: none; margin-bottom: 40px; }
-        .p-features li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; opacity: 0.6; }
-        .buy-btn { width: 100%; padding: 20px; background: transparent; border: 1px solid var(--p); color: var(--p); font-family: var(--f-logo); font-size: 0.7rem; cursor: pointer; transition: 0.4s; }
-        .buy-btn:hover { background: var(--p); color: #000; box-shadow: var(--glow); }
+        /* MARKET */
+        .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .m-card { background: var(--glass); border: 1px solid var(--border); padding: 50px; position: relative; transition: 0.5s; overflow: hidden; }
+        .m-card:hover { border-color: var(--p); transform: translateY(-10px); }
+        .m-card::before { content: 'PREMIUM'; position: absolute; top: 20px; right: -30px; background: var(--p); color: #000; font-family: var(--f-logo); font-size: 0.5rem; padding: 5px 40px; transform: rotate(45deg); }
+        .m-price { font-size: 3.5rem; font-weight: 900; margin: 30px 0; }
+        .m-btn { width: 100%; padding: 20px; background: transparent; border: 1px solid var(--p); color: var(--p); font-family: var(--f-logo); font-size: 0.7rem; letter-spacing: 2px; transition: 0.3s; }
+        .m-btn:hover { background: var(--p); color: #000; box-shadow: var(--glow); }
 
-        /* WIKI MODÜLÜ - DETAYLI (SATIR 350+) */
-        .wiki-console { background: #000; border: 1px solid var(--border); border-radius: 5px; min-height: 600px; display: grid; grid-template-columns: 350px 1fr; }
-        .wiki-sidebar { border-right: 1px solid var(--border); padding: 30px; }
-        .wiki-nav-item { padding: 20px; font-family: var(--f-mono); font-size: 0.8rem; cursor: pointer; opacity: 0.4; transition: 0.3s; border-left: 2px solid transparent; }
-        .wiki-nav-item.active { opacity: 1; color: var(--p); border-left: 2px solid var(--p); background: rgba(0,242,255,0.02); }
-        .wiki-content { padding: 80px; }
-        .wiki-content h3 { font-family: var(--f-logo); font-size: 2.5rem; margin-bottom: 40px; }
-        .wiki-content p { line-height: 2.2; opacity: 0.6; font-size: 1.1rem; margin-bottom: 30px; }
+        /* WIKI CONSOLE */
+        .wiki-wrap { display: grid; grid-template-columns: 350px 1fr; background: #000; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; min-height: 600px; }
+        .wiki-nav { border-right: 1px solid var(--border); padding: 20px; }
+        .w-item { padding: 20px; font-family: var(--f-mono); font-size: 0.8rem; opacity: 0.4; transition: 0.3s; border-radius: 5px; margin-bottom: 5px; }
+        .w-item.active, .w-item:hover { opacity: 1; background: rgba(0, 242, 255, 0.05); color: var(--p); }
+        .wiki-body { padding: 80px; }
+        .wiki-body h3 { font-family: var(--f-logo); font-size: 2.5rem; color: var(--p); margin-bottom: 30px; }
+        .wiki-body p { line-height: 2; opacity: 0.6; font-size: 1.1rem; }
 
-        /* CANLI BORSA GRAFİĞİ (SATIR 450+) */
-        .stock-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom: 50px; }
-        .stock-box { background: var(--glass); padding: 40px; border: 1px solid var(--border); text-align: center; }
-        .s-val { font-size: 2rem; font-weight: 900; margin: 15px 0; font-family: var(--f-mono); }
-        .s-up { color: #00ff88; font-size: 0.8rem; }
-        .s-down { color: #ff0055; font-size: 0.8rem; }
+        /* STOCK ENGINE */
+        .stock-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .s-box { background: var(--glass); border: 1px solid var(--border); padding: 35px; text-align: center; }
+        .s-box i { font-size: 0.7rem; color: #00ff88; }
 
-        /* KLANLAR VE SIRALAMA (SATIR 550+) */
-        .rank-table { width: 100%; border-collapse: collapse; margin-top: 50px; }
-        .rank-table tr { background: rgba(255,255,255,0.01); border-bottom: 1px solid var(--border); transition: 0.3s; }
-        .rank-table tr:hover { background: rgba(255,255,255,0.03); }
-        .rank-table td, .rank-table th { padding: 30px; text-align: left; }
-        .rank-id { font-family: var(--f-logo); color: var(--p); width: 100px; }
-        .player-meta { display: flex; align-items: center; gap: 20px; }
-        .player-head { width: 40px; height: 40px; background: #222; border-radius: 5px; }
-
-        /* FOOTER (SATIR 650+) */
-        footer { padding: 150px 10% 80px; background: #010102; border-top: 1px solid var(--border); }
+        /* FOOTER */
+        footer { padding: 120px 10% 60px; background: #010103; border-top: 1px solid var(--border); }
         .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 80px; }
         .f-col h4 { font-family: var(--f-logo); font-size: 0.8rem; color: var(--p); margin-bottom: 40px; }
         .f-links { list-style: none; }
-        .f-links li { margin-bottom: 20px; opacity: 0.4; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
+        .f-links li { margin-bottom: 15px; opacity: 0.4; font-size: 0.9rem; transition: 0.3s; }
         .f-links li:hover { opacity: 1; color: var(--p); padding-left: 10px; }
 
-        /* RESPONSIVE */
+        /* CURSOR HOVER CLASSES */
+        .hover-active { transform: scale(2.5) !important; background: rgba(0, 242, 255, 0.1) !important; border-color: var(--p) !important; }
+        .dot-small { transform: scale(0.3) !important; }
+
         @media (max-width: 1200px) {
-            .market-wrap, .wiki-console, .f-grid, .stock-container { grid-template-columns: 1fr; }
+            .f-grid, .wiki-wrap, .stock-row { grid-template-columns: 1fr; }
             .hero-h1 { font-size: 15vw; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-engine">
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <div class="bg-layer">
         <div class="grid"></div>
-        <div class="orb" style="top: -10%; left: -10%;"></div>
-        <div class="orb" style="bottom: 10%; right: -10%; background: var(--p);"></div>
+        <div class="nebula" style="top: -10%; left: -10%;"></div>
+        <div class="nebula" style="bottom: -10%; right: -10%; background: var(--p);"></div>
     </div>
 
     <nav id="navbar">
         <a href="#" class="logo">ARCES<span>NW</span></a>
         <ul class="nav-links">
-            <li><a href="#home" class="active">ANASAYFA</a></li>
-            <li><a href="#market">MAĞAZA</a></li>
-            <li><a href="#wiki">WIKI</a></li>
-            <li><a href="#ranks">SIRALAMA</a></li>
-            <li><a href="#support">DESTEK</a></li>
-            <li><a href="https://discord.gg/arcesnw" style="color:var(--p)"><i class="fab fa-discord"></i></a></li>
+            <li><a href="#home">01 GİRİŞ</a></li>
+            <li><a href="#market">02 MAĞAZA</a></li>
+            <li><a href="#wiki">03 SİSTEMLER</a></li>
+            <li><a href="#stock">04 BORSA</a></li>
+            <li><a href="https://discord.gg/arcesnw"><i class="fab fa-discord"></i></a></li>
         </ul>
     </nav>
 
     <section class="hero" id="home">
-        <div class="hero-content">
-            <h1 class="hero-h1 animate__animated animate__fadeInDown">
-                <b>SINIRSIZ</b>
-                <span>ADALET</span>
-            </h1>
-            <p style="margin-top:30px; letter-spacing: 15px; opacity: 0.4; font-family: var(--f-mono);">HUB NETWORK v11.0</p>
-            
-            <div class="ip-card animate__animated animate__fadeInUp" onclick="copyIP()">
-                <i class="fas fa-terminal"></i>
-                <div>
-                    <div style="font-family: var(--f-mono); font-size: 1.8rem; font-weight: 900; letter-spacing: 5px;">PLAY.ARCESNW.COM</div>
-                    <div style="text-align: left; font-size: 0.7rem; opacity: 0.5; margin-top: 5px;">TIKLA VE ADRESİ KOPYALA - <b id="pc">1,540</b> AKTİF</div>
-                </div>
-            </div>
+        <div class="hero-h1 animate__animated animate__fadeInDown">
+            <b>ARCES</b>
+            <span>NETWORK</span>
         </div>
-    </section>
-
-    <section id="stocks" data-aos="fade-up">
-        <div class="section-header">
-            <span>Live Economy</span>
-            <h2>CANLI BORSA</h2>
-        </div>
-        <div class="stock-container">
-            <div class="stock-box">
-                <div style="font-size: 0.7rem; opacity: 0.4;">DIAMOND / AKÇE</div>
-                <div class="s-val">14.20K</div>
-                <div class="s-up"><i class="fas fa-caret-up"></i> +14.2%</div>
-            </div>
-            <div class="stock-box">
-                <div style="font-size: 0.7rem; opacity: 0.4;">EMERALD / AKÇE</div>
-                <div class="s-val">22.80K</div>
-                <div class="s-down"><i class="fas fa-caret-down"></i> -2.5%</div>
-            </div>
-            <div class="stock-box">
-                <div style="font-size: 0.7rem; opacity: 0.4;">NETHERITE / AKÇE</div>
-                <div class="s-val">155.0K</div>
-                <div class="s-up"><i class="fas fa-caret-up"></i> +4.8%</div>
-            </div>
-            <div class="stock-box" style="border-color: var(--a);">
-                <div style="font-size: 0.7rem; opacity: 0.4;">ANCIENT DEBRIS</div>
-                <div class="s-val">92.10K</div>
-                <div class="s-up"><i class="fas fa-caret-up"></i> +22.1%</div>
-            </div>
+        <div class="ip-engine animate__animated animate__fadeInUp" onclick="copyIP()">
+            <div class="ip-text">PLAY.ARCESNW.COM</div>
+            <div style="margin-top:15px; font-family: var(--f-mono); font-size: 0.7rem; opacity: 0.4;">TIKLA KOPYALA • <b id="pc">1,540</b> OYUNCU AKTİF</div>
         </div>
     </section>
 
     <section id="market" data-aos="fade-up">
-        <div class="section-header">
-            <span>Premium Store</span>
+        <div class="sec-head">
+            <span>PREMIUM UPGRADES</span>
             <h2>SUNUCU MAĞAZASI</h2>
         </div>
-        <div class="market-wrap">
-            <div class="filter-list">
-                <button class="f-btn active">TÜM ÜRÜNLER</button>
-                <button class="f-btn">RÜTBELER</button>
-                <button class="f-btn">KASA ANAHTARLARI</button>
-                <button class="f-btn">OYUN PARALARI</button>
-                <button class="f-btn">ÖZEL KOZMETİKLER</button>
+        <div class="market-grid">
+            <div class="m-card">
+                <div style="font-family: var(--f-logo); font-size: 0.8rem; color: var(--p);">ELITE RÜTBE</div>
+                <div class="m-price">125₺<small style="font-size: 1rem; opacity: 0.3;">/ay</small></div>
+                <ul style="list-style: none; margin-bottom: 40px; opacity: 0.6; line-height: 2;">
+                    <li><i class="fas fa-check"></i> Sınırsız Fly Yetkisi</li>
+                    <li><i class="fas fa-check"></i> Özel Elite Kitleri</li>
+                    <li><i class="fas fa-check"></i> Sohbet Renk Erişimi</li>
+                </ul>
+                <button class="m-btn">SATIN AL</button>
             </div>
-            <div class="product-grid">
-                <div class="product-card">
-                    <div class="p-title">ULTIMATE VIP</div>
-                    <div class="p-price">120<small>₺ / Aylık</small></div>
-                    <ul class="p-features">
-                        <li>Sınırsız /fly yetkisi</li>
-                        <li>Özel "Ultimate" sohbet rengi</li>
-                        <li>Dolu sunuculara giriş önceliği</li>
-                        <li>Günlük 3 adet özel kit</li>
-                    </ul>
-                    <button class="buy-btn">SEPETE EKLE</button>
-                </div>
-                <div class="product-card" style="border-color:var(--a)">
-                    <div class="p-title" style="color:var(--a)">ARCES CHAMPION</div>
-                    <div class="p-price">450<small>₺ / Kalıcı</small></div>
-                    <ul class="p-features">
-                        <li>Tüm VIP özelliklerini kapsar</li>
-                        <li>Özel kanat ve pelerin kozmetikleri</li>
-                        <li>Sezonluk 10M Akçe hediyesi</li>
-                        <li>/nick ile isim değiştirme</li>
-                    </ul>
-                    <button class="buy-btn" style="border-color:var(--a); color:var(--a)">HIZLI SATIN AL</button>
-                </div>
+            <div class="m-card" style="border-color: var(--a);">
+                <div style="font-family: var(--f-logo); font-size: 0.8rem; color: var(--a);">CHAMPION</div>
+                <div class="m-price">450₺<small style="font-size: 1rem; opacity: 0.3;">/ebedi</small></div>
+                <ul style="list-style: none; margin-bottom: 40px; opacity: 0.6; line-height: 2;">
+                    <li><i class="fas fa-star"></i> Tüm VIP Özellikleri</li>
+                    <li><i class="fas fa-star"></i> Özel Kanat Efektleri</li>
+                    <li><i class="fas fa-star"></i> Kalıcı 10M Akçe</li>
+                </ul>
+                <button class="m-btn" style="border-color: var(--a); color: var(--a);">HIZLI AL</button>
             </div>
         </div>
     </section>
 
     <section id="wiki" data-aos="fade-up">
-        <div class="section-header" style="text-align: right;">
-            <span>Documentation</span>
-            <h2>SİSTEM BİLGİLERİ</h2>
+        <div class="sec-head">
+            <span>DATABASE</span>
+            <h2>BİLGİ BANKASI</h2>
         </div>
-        <div class="wiki-console">
-            <div class="wiki-sidebar">
-                <div class="wiki-nav-item active" data-id="eco">EKONOMİ SİSTEMİ</div>
-                <div class="wiki-nav-item" data-id="clan">KLAN SAVAŞLARI</div>
-                <div class="wiki-nav-item" data-id="rank">RÜTBE ATLAMA</div>
-                <div class="wiki-nav-item" data-id="boss">ZİNDANLAR & BOSS</div>
-                <div class="wiki-nav-item" data-id="rules">SUNUCU KURALLARI</div>
+        <div class="wiki-wrap">
+            <div class="wiki-nav">
+                <div class="w-item active" data-target="eco">EKONOMİ SİSTEMİ</div>
+                <div class="w-item" data-target="war">KLAN SAVAŞLARI</div>
+                <div class="w-item" data-target="rank">RÜTBE GELİŞİMİ</div>
+                <div class="w-item" data-target="boss">ZİNDANLAR</div>
             </div>
-            <div class="wiki-content" id="wiki-body">
+            <div class="wiki-body" id="wiki-render">
                 <h3>Ekonomi Sistemi</h3>
-                <p>ArcesNW ekonomisi dinamik arz-talep dengesine dayanır. Oyuncular markete ürün sattıkça ürünün fiyatı düşer, ürün satın alındıkça fiyat yükselir. Bu sayede sunucuda gerçek bir borsa deneyimi yaşanır.</p>
-                <p>Ekonomi komutları: <b>/borsa, /ah, /pay, /cüzdan</b></p>
+                <p>ArcesNW üzerinde ekonomi tamamen merkeziyetsizdir. Oyuncular arasındaki ticaret, borsadaki arz-talep dengesini belirler. Maden sattıkça fiyatlar düşer, hammadde kıtlığı oldukça fiyatlar fırlar.</p>
+                <div style="margin-top:30px; border-left: 2px solid var(--p); padding-left: 20px; font-family: var(--f-mono); font-size: 0.8rem; opacity: 0.4;">
+                    STATUS: ACTIVE <br> CURRENCY: AKÇE (AC)
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="ranks" data-aos="fade-up">
-        <div class="section-header">
-            <span>Leaderboard</span>
-            <h2>EN İYİ OYUNCULAR</h2>
+    <section id="stock" data-aos="fade-up">
+        <div class="sec-head">
+            <span>LIVE DATA</span>
+            <h2>CANLI BORSA</h2>
         </div>
-        <div style="background: var(--glass); border: 1px solid var(--border); border-radius: 10px;">
-            <table class="rank-table">
-                <thead>
-                    <tr>
-                        <th>SIRA</th>
-                        <th>OYUNCU</th>
-                        <th>PUAN</th>
-                        <th>DURUM</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="rank-id">#01</td>
-                        <td>
-                            <div class="player-meta">
-                                <img src="https://minotar.net/avatar/Steve/40" class="player-head">
-                                <div><b>ArcesKing</b><br><small style="opacity:0.4">KADİM RÜTBE</small></div>
-                            </div>
-                        </td>
-                        <td>1,245,000</td>
-                        <td style="color:#00ff88">ÇEVRİMİÇİ</td>
-                    </tr>
-                    <tr>
-                        <td class="rank-id">#02</td>
-                        <td>
-                            <div class="player-meta">
-                                <img src="https://minotar.net/avatar/Alex/40" class="player-head">
-                                <div><b>ShadowMaster</b><br><small style="opacity:0.4">EFSANE RÜTBE</small></div>
-                            </div>
-                        </td>
-                        <td>980,500</td>
-                        <td style="color:#ff0055">ÇEVRİMDIŞI</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="stock-row">
+            <div class="s-box">
+                <div style="opacity:0.3; font-size:0.7rem;">ELMAS</div>
+                <div style="font-family: var(--f-mono); font-size: 1.5rem; margin: 10px 0;">12.4K</div>
+                <i class="fas fa-caret-up"> %4.2</i>
+            </div>
+            <div class="s-box">
+                <div style="opacity:0.3; font-size:0.7rem;">NETHERITE</div>
+                <div style="font-family: var(--f-mono); font-size: 1.5rem; margin: 10px 0;">185K</div>
+                <i class="fas fa-caret-up"> %12.8</i>
+            </div>
+            <div class="s-box">
+                <div style="opacity:0.3; font-size:0.7rem;">ZÜMRÜT</div>
+                <div style="font-family: var(--f-mono); font-size: 1.5rem; margin: 10px 0;">22.1K</div>
+                <i class="fas fa-caret-down" style="color:var(--a)"> %1.5</i>
+            </div>
+            <div class="s-box">
+                <div style="opacity:0.3; font-size:0.7rem;">ALTIN</div>
+                <div style="font-family: var(--f-mono); font-size: 1.5rem; margin: 10px 0;">8.4K</div>
+                <i class="fas fa-caret-up"> %0.8</i>
+            </div>
         </div>
     </section>
 
@@ -294,85 +239,103 @@
         <div class="f-grid">
             <div class="f-col">
                 <a href="#" class="logo">ARCES<span>NW</span></a>
-                <p style="margin-top:20px">Türkiye'nin en gelişmiş Minecraft Hub topluluğu. Adalet, kalite ve performansın buluştuğu nokta.</p>
+                <p style="margin-top:25px; opacity:0.4; line-height: 2;">ArcesNW, modern Minecraft deneyimini en yüksek performans ve adaletle sunan öncü Hub topluluğudur.</p>
             </div>
             <div class="f-col">
-                <h4>MENÜ</h4>
+                <h4>HIZLI MENÜ</h4>
                 <ul class="f-links">
-                    <li>Giriş</li>
-                    <li>Mağaza</li>
-                    <li>Borsa</li>
+                    <li>Giriş Paneli</li>
+                    <li>Sıralamalar</li>
+                    <li>Market</li>
                     <li>Wiki</li>
                 </ul>
             </div>
             <div class="f-col">
-                <h4>DESTEK</h4>
+                <h4>POLİTİKALAR</h4>
                 <ul class="f-links">
-                    <li>Yardım Merkezi</li>
-                    <li>Bize Ulaşın</li>
-                    <li>Kullanım Koşulları</li>
-                    <li>Gizlilik Politikası</li>
+                    <li>Kullanım Şartları</li>
+                    <li>Gizlilik Sözleşmesi</li>
+                    <li>EULA</li>
                 </ul>
             </div>
             <div class="f-col">
-                <h4>SOSYAL</h4>
-                <div style="display:flex; gap:20px; font-size: 1.5rem;">
+                <h4>TOPLULUK</h4>
+                <div style="display:flex; gap:20px; font-size: 1.5rem; color: var(--p);">
                     <i class="fab fa-discord"></i>
-                    <i class="fab fa-youtube"></i>
                     <i class="fab fa-instagram"></i>
+                    <i class="fab fa-youtube"></i>
                 </div>
             </div>
         </div>
-        <div style="margin-top:100px; text-align: center; border-top:1px solid var(--border); padding-top: 50px; opacity: 0.2; font-family:var(--f-mono); font-size: 0.7rem; letter-spacing: 5px;">
-            DESIGNED BY ARCESNW STUDIO &copy; 2026 - TÜM HAKLARI SAKLIDIR.
-        </div>
     </footer>
-
-    <div id="toast" style="visibility:hidden; background:#fff; color:#000; padding:20px 40px; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); font-weight:900; z-index:99999;">IP KOPYALANDI!</div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true });
 
-        // NAVBAR STICKY
-        window.onscroll = () => {
-            const nav = document.getElementById('navbar');
-            if(window.scrollY > 50) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
-        };
+        // MASTER CURSOR ENGINE
+        const dot = document.getElementById('cursor-dot');
+        const outline = document.getElementById('cursor-outline');
 
-        // IP COPY
-        function copyIP() {
-            navigator.clipboard.writeText("PLAY.ARCESNW.COM");
-            const t = document.getElementById('toast');
-            t.style.visibility = 'visible';
-            setTimeout(() => t.style.visibility = 'hidden', 3000);
-        }
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
 
-        // WIKI ENGINE
-        const wikiData = {
-            eco: ["Ekonomi Sistemi", "ArcesNW ekonomisi dinamik arz-talep dengesine dayanır. Market fiyatları oyuncu hareketlerine göre saniyeler içinde güncellenir."],
-            clan: ["Klan Savaşları", "Her hafta sonu düzenlenen klan savaşlarında kalenizi koruyun ve bölge puanlarını toplayarak sezon ödüllerini kazanın."],
-            rank: ["Rütbe Atlama", "/rankup komutu ile oyun parası karşılığında rütbe atlayabilir ve yeni kitlerin kilidini açabilirsiniz."],
-            boss: ["Zindanlar & Boss", "Zindanlara giriş yaparak efsanevi yaratıkları öldürün ve nadir setlerin sahibi olun."],
-            rules: ["Sunucu Kuralları", "Saygılı bir oyun ortamı için küfür, hile ve dolandırıcılık kesinlikle yasaktır ve ağır yaptırımları vardır."]
-        };
+            dot.style.transform = `translate(${x}px, ${y}px)`;
+            
+            // Gecikmeli takip (Smooth)
+            outline.animate({
+                transform: `translate(${x - 20}px, ${y - 20}px)`
+            }, { duration: 400, fill: "forwards" });
+        });
 
-        document.querySelectorAll('.wiki-nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelector('.wiki-nav-item.active').classList.remove('active');
-                this.classList.add('active');
-                const id = this.getAttribute('data-id');
-                document.getElementById('wiki-body').innerHTML = `<h3>${wikiData[id][0]}</h3><p>${wikiData[id][1]}</p>`;
+        // CURSOR HOVER EFFECTS
+        const hoverItems = document.querySelectorAll('a, button, .ip-engine, .w-item');
+        hoverItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                outline.classList.add('hover-active');
+                dot.classList.add('dot-small');
+            });
+            item.addEventListener('mouseleave', () => {
+                outline.classList.remove('hover-active');
+                dot.classList.remove('dot-small');
             });
         });
 
-        // PLAYER COUNT SIM
-        let count = 1540;
+        // WIKI DATA ENGINE
+        const wikiData = {
+            eco: ["Ekonomi Sistemi", "ArcesNW üzerinde ekonomi tamamen merkeziyetsizdir. Oyuncular arasındaki ticaret, borsadaki arz-talep dengesini belirler."],
+            war: ["Klan Savaşları", "Her hafta sonu düzenlenen klan savaşlarında kalenizi koruyun ve bölge puanlarını toplayarak sezon ödüllerini kazanın."],
+            rank: ["Rütbe Gelişimi", "/rankup komutu ile seviye atlayabilir, her seviyede yeni yetenekler ve kozmetikler kazanabilirsiniz."],
+            boss: ["Zindanlar", "Gelişmiş yapay zekaya sahip bosslar ve zindanlar sizi bekliyor. Nadir eşyalar için ekibinizi toplayın."]
+        };
+
+        document.querySelectorAll('.w-item').forEach(el => {
+            el.addEventListener('click', function() {
+                document.querySelector('.w-item.active').classList.remove('active');
+                this.classList.add('active');
+                const d = wikiData[this.getAttribute('data-target')];
+                document.getElementById('wiki-render').innerHTML = `<h3>${d[0]}</h3><p>${d[1]}</p>`;
+            });
+        });
+
+        // UTILS
+        function copyIP() {
+            navigator.clipboard.writeText("PLAY.ARCESNW.COM");
+            alert("IP Adresi Kopyalandı!");
+        }
+
+        window.onscroll = () => {
+            const nav = document.getElementById('navbar');
+            if(window.scrollY > 50) nav.classList.add('sticky');
+            else nav.classList.remove('sticky');
+        };
+
+        // Player count sim
         setInterval(() => {
-            count += Math.floor(Math.random() * 6) - 3;
-            document.getElementById('pc').innerText = count;
-        }, 4000);
+            const pc = document.getElementById('pc');
+            pc.innerText = (parseInt(pc.innerText) + (Math.random() > 0.5 ? 1 : -1));
+        }, 3000);
     </script>
 </body>
 </html>
