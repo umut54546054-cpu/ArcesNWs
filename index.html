@@ -3,362 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArcesNW | Marjinal Hub Portalı v2.0</title>
+    <title>ArcesNW | Marjinal Hub Deneyimi v3.0</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@200;400&family=Outfit:wght@100;400;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Outfit:wght@100;300;500;700;900&family=JetBrains+Mono:wght@200;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
-        /* ARCES MASTER ENGINE - CSS CONFIGURATION (LINE 20-350)
-           Tüm stil sistemi marjinal ve modern cam-morfizm üzerine kuruludur.
-        */
+        /* ARCESNW ULTIMATE ENGINE - CSS START (LINE 20-400) */
         :root {
-            --p: #00d2ff; --s: #3a7bd5; --a: #ff00c1; --dark: #010103;
-            --bg-card: rgba(255, 255, 255, 0.02);
-            --border: rgba(255, 255, 255, 0.06);
-            --text-main: 'Space Grotesk', sans-serif;
-            --text-logo: 'Syncopate', sans-serif;
-            --glow: 0 0 20px rgba(0, 210, 255, 0.3);
+            --p: #00d2ff; --s: #3a7bd5; --a: #ff00c1; --bg: #030305;
+            --glass: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.08);
+            --glow-p: 0 0 30px rgba(0, 210, 255, 0.4);
+            --font-main: 'Outfit', sans-serif;
+            --font-logo: 'Syncopate', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { background: var(--dark); color: #fff; font-family: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+        body { background: var(--bg); color: #fff; font-family: var(--font-main); overflow-x: hidden; line-height: 1.5; }
 
-        /* SCROLLBAR CUSTOMIZATION */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--dark); }
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: var(--p); border-radius: 10px; }
 
-        /* BACKGROUND ELEMENTS */
-        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 50% 50%, #0a111a 0%, #010103 100%); }
-        .grid-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(circle, black, transparent 80%); }
+        /* INTERACTIVE BACKGROUND */
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.6; }
+        .gradient-blur { position: fixed; width: 800px; height: 800px; background: radial-gradient(circle, rgba(0, 210, 255, 0.1) 0%, transparent 75%); border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none; }
 
-        /* NAVBAR */
-        nav { position: fixed; top: 0; width: 100%; padding: 25px 8%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: 0.5s; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
-        nav.sticky { padding: 15px 8%; background: rgba(1, 1, 3, 0.9); }
-        .nav-logo { font-family: var(--text-logo); font-size: 1.6rem; letter-spacing: 4px; text-decoration: none; color: #fff; }
-        .nav-logo span { color: var(--p); }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { text-decoration: none; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-        .nav-links a:hover { color: var(--p); text-shadow: var(--glow); }
+        /* MODERN NAVIGATION */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; border-bottom: 1px solid var(--border);
+            background: rgba(3, 3, 5, 0.8); backdrop-filter: blur(20px);
+        }
+        .nav-brand { font-family: var(--font-logo); font-size: 1.4rem; letter-spacing: 5px; color: #fff; text-decoration: none; }
+        .nav-brand span { color: var(--p); text-shadow: var(--glow-p); }
+        .nav-links { display: flex; gap: 35px; list-style: none; }
+        .nav-links a { text-decoration: none; color: rgba(255,255,255,0.6); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; transition: 0.4s; }
+        .nav-links a:hover { color: var(--p); text-shadow: var(--glow-p); transform: translateY(-2px); }
 
-        /* HERO SECTION */
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 20px; }
-        .hero-badge { background: rgba(0, 210, 255, 0.1); border: 1px solid var(--p); padding: 8px 20px; border-radius: 50px; font-size: 0.7rem; letter-spacing: 3px; color: var(--p); margin-bottom: 25px; font-weight: 700; text-transform: uppercase; }
-        .hero-title { font-family: 'Outfit', sans-serif; font-size: clamp(3rem, 15vw, 9rem); font-weight: 900; line-height: 0.85; margin-bottom: 30px; }
-        .hero-title b { -webkit-text-stroke: 1px #fff; color: transparent; }
+        /* HERO AREA */
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; }
+        .hero-title { font-size: clamp(4rem, 18vw, 12rem); font-family: var(--font-logo); font-weight: 700; line-height: 0.8; letter-spacing: -5px; margin-bottom: 20px; background: linear-gradient(to bottom, #fff, #444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 50px rgba(255,255,255,0.15)); }
+        .hero-title span { color: var(--p); -webkit-text-fill-color: var(--p); -webkit-text-stroke: 0; }
 
-        /* IP BOX */
-        .copy-ip-card { background: var(--bg-card); border: 1px solid var(--border); padding: 20px 40px; border-radius: 20px; cursor: pointer; transition: 0.4s; position: relative; overflow: hidden; }
-        .copy-ip-card:hover { border-color: var(--p); transform: translateY(-5px); box-shadow: var(--glow); }
-        .ip-val { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: var(--p); letter-spacing: 2px; }
+        .ip-copy-wrapper {
+            margin-top: 40px; background: var(--glass); border: 1px solid var(--border);
+            padding: 20px 50px; border-radius: 100px; cursor: pointer; transition: 0.5s;
+            display: flex; align-items: center; gap: 15px; position: relative;
+        }
+        .ip-copy-wrapper:hover { border-color: var(--p); transform: scale(1.05); box-shadow: var(--glow-p); }
+        .ip-text { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 500; color: var(--p); letter-spacing: 3px; }
 
-        /* GENERIC SECTION STYLES */
-        section { padding: 120px 8%; }
-        .sec-top { margin-bottom: 60px; text-align: left; }
-        .sec-top h2 { font-family: var(--text-logo); font-size: 2.2rem; margin-bottom: 10px; letter-spacing: 3px; }
-        .sec-top p { opacity: 0.5; max-width: 600px; }
-        .line { width: 50px; height: 3px; background: var(--p); margin-top: 15px; }
+        /* SECTIONS */
+        section { padding: 150px 10%; position: relative; }
+        .stitle { margin-bottom: 80px; }
+        .stitle h2 { font-family: var(--font-logo); font-size: 3rem; margin-bottom: 10px; color: #fff; }
+        .stitle p { color: var(--p); letter-spacing: 5px; text-transform: uppercase; font-size: 0.8rem; font-weight: 900; }
 
-        /* MARKET SYSTEM (EXTENDED) */
-        .market-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .m-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 30px; padding: 40px; transition: 0.5s; position: relative; }
-        .m-card:hover { border-color: var(--p); background: rgba(0, 210, 255, 0.03); transform: scale(1.02); }
-        .m-tag { position: absolute; top: 20px; right: 20px; background: var(--a); font-size: 0.6rem; padding: 5px 12px; border-radius: 5px; font-weight: 900; }
-        .m-price { font-size: 3rem; font-weight: 900; margin: 25px 0; color: #fff; }
-        .m-price span { font-size: 1rem; opacity: 0.4; }
-        .m-features { list-style: none; margin-bottom: 35px; }
-        .m-features li { margin-bottom: 12px; font-size: 0.9rem; opacity: 0.7; display: flex; align-items: center; gap: 10px; }
-        .m-features i { color: var(--p); font-size: 0.8rem; }
-        .m-btn { width: 100%; padding: 18px; border-radius: 15px; border: 1px solid var(--p); background: transparent; color: #fff; font-weight: 700; cursor: pointer; transition: 0.3s; text-decoration: none; display: block; text-align: center; }
-        .m-btn:hover { background: var(--p); color: #000; box-shadow: var(--glow); }
+        /* MARKET - PRODUCT CARDS */
+        .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .product-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+            border: 1px solid var(--border); border-radius: 40px; padding: 50px;
+            text-align: center; position: relative; overflow: hidden; transition: 0.6s;
+        }
+        .product-card:hover { border-color: var(--p); transform: translateY(-15px); }
+        .p-price { font-size: 4rem; font-weight: 900; margin: 30px 0; font-family: var(--font-logo); }
+        .p-price span { font-size: 1.2rem; opacity: 0.4; }
+        .p-btn { width: 100%; padding: 20px; border-radius: 20px; border: none; background: #fff; color: #000; font-weight: 900; text-decoration: none; display: block; cursor: pointer; transition: 0.3s; }
+        .p-btn:hover { background: var(--p); box-shadow: var(--glow-p); }
 
-        /* WIKI / SYSTEMS (NEW) */
-        .wiki-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .wiki-box { background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: 20px; padding: 30px; }
-        .wiki-box h4 { font-family: var(--text-logo); color: var(--p); margin-bottom: 15px; font-size: 1rem; }
-        .wiki-content { font-size: 0.9rem; opacity: 0.6; line-height: 1.8; }
+        /* SUPPORT SYSTEM - TICKET */
+        .support-container {
+            background: var(--glass); border: 1px solid var(--border); border-radius: 40px;
+            padding: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+            backdrop-filter: blur(20px);
+        }
+        .ticket-form input, .ticket-form textarea {
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            padding: 20px; border-radius: 15px; color: #fff; margin-bottom: 20px; font-family: inherit;
+        }
+        .ticket-form button {
+            width: 100%; padding: 20px; border-radius: 15px; border: 1px solid var(--p);
+            background: transparent; color: var(--p); font-weight: 900; cursor: pointer; transition: 0.4s;
+        }
+        .ticket-form button:hover { background: var(--p); color: #000; box-shadow: var(--glow-p); }
 
-        /* STAFF CARDS (ULTIMATE) */
-        .staff-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; }
-        .staff-profile { width: 280px; text-align: center; }
-        .staff-hex { width: 160px; height: 180px; background: #111; margin: 0 auto 20px; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; transition: 0.5s; }
-        .staff-profile:hover .staff-hex { border-color: var(--p); transform: translateY(-10px); }
-        .staff-hex img { width: 80%; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
-        .s-name { font-family: var(--text-logo); font-size: 1.2rem; margin-bottom: 5px; }
-        .s-rank { font-size: 0.7rem; color: var(--p); font-weight: 900; letter-spacing: 3px; text-transform: uppercase; }
+        /* STAFF - PREMIUM HEX */
+        .staff-wrap { display: flex; justify-content: center; flex-wrap: wrap; gap: 50px; }
+        .staff-box { width: 250px; text-align: center; }
+        .staff-img-box {
+            width: 200px; height: 200px; margin: 0 auto 25px;
+            border-radius: 60px; background: #111; border: 1px solid var(--border);
+            padding: 20px; position: relative; transition: 0.5s;
+        }
+        .staff-box:hover .staff-img-box { border-color: var(--p); transform: rotate(10deg); }
+        .staff-img-box img { width: 100%; }
 
-        /* FAQ SECTION (NEW) */
-        .faq-wrap { max-width: 900px; margin: 0 auto; }
-        .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 15px; margin-bottom: 15px; padding: 25px; cursor: pointer; transition: 0.3s; }
-        .faq-item:hover { border-color: rgba(255,255,255,0.2); }
-        .faq-q { font-weight: 700; color: var(--p); display: flex; justify-content: space-between; }
-        .faq-a { margin-top: 15px; font-size: 0.9rem; opacity: 0.6; display: none; }
+        /* FOOTER */
+        footer { padding: 120px 10% 50px; border-top: 1px solid var(--border); background: #010102; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 100px; }
+        .f-brand h2 { font-family: var(--font-logo); font-size: 2rem; margin-bottom: 25px; }
+        .f-links h4 { color: var(--p); margin-bottom: 20px; letter-spacing: 3px; }
+        .f-links ul { list-style: none; }
+        .f-links li { margin-bottom: 12px; opacity: 0.5; cursor: pointer; transition: 0.3s; }
+        .f-links li:hover { opacity: 1; color: var(--p); }
 
-        /* FOOTER DETAILED */
-        footer { background: #010102; padding: 100px 8% 40px; border-top: 1px solid var(--border); }
-        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 60px; }
-        .f-col h3 { font-family: var(--text-logo); margin-bottom: 25px; color: var(--p); }
-        .f-col p { opacity: 0.5; font-size: 0.9rem; margin-bottom: 20px; }
-        .f-col ul { list-style: none; }
-        .f-col li { margin-bottom: 12px; opacity: 0.4; font-size: 0.85rem; transition: 0.3s; cursor: pointer; }
-        .f-col li:hover { opacity: 1; color: var(--p); }
-
-        /* NOTIFICATIONS */
-        #toast { visibility: hidden; background: var(--p); color: #000; padding: 20px 50px; border-radius: 15px; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); font-weight: 900; z-index: 10001; }
+        /* NOTIFICATION */
+        #toast { visibility: hidden; background: var(--p); color: #000; padding: 20px 60px; border-radius: 20px; position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); font-weight: 900; z-index: 99999; }
         #toast.show { visibility: visible; animation: fadeInUp 0.5s; }
 
-        @keyframes fadeInUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translate(-50%, 30px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
-        /* MOBILE ADJUSTMENTS */
-        @media (max-width: 900px) {
-            .f-grid { grid-template-columns: 1fr 1fr; }
-            .hero-title { font-size: 4rem; }
-            .wiki-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
+        @media (max-width: 1000px) {
+            .f-grid, .support-container { grid-template-columns: 1fr; }
+            .hero-title { font-size: 5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-gradient"></div>
-    <div class="grid-layer"></div>
+    <canvas id="bg-canvas"></canvas>
+    <div class="gradient-blur" style="top: -10%; right: -10%;"></div>
+    <div class="gradient-blur" style="bottom: 0%; left: -5%; background: radial-gradient(circle, rgba(255, 0, 193, 0.05) 0%, transparent 75%);"></div>
 
-    <nav id="mainNav">
-        <a href="#" class="nav-logo">ARCES<span>NW</span></a>
+    <nav>
+        <a href="#" class="nav-brand">ARCES<span>NW</span></a>
         <ul class="nav-links">
             <li><a href="#home">Giriş</a></li>
-            <li><a href="#market">Market</a></li>
+            <li><a href="#market">Mağaza</a></li>
             <li><a href="#wiki">Sistemler</a></li>
-            <li><a href="#staff">Ekip</a></li>
-            <li><a href="#faq">S.S.S</a></li>
-            <li><a href="https://discord.gg/arcesnw" style="color: var(--p);"><i class="fab fa-discord"></i></a></li>
+            <li><a href="#staff">Ekibimiz</a></li>
+            <li><a href="#support">Destek Hattı</a></li>
+            <li><a href="https://discord.gg/arcesnw" style="color: #5865F2;"><i class="fab fa-discord"></i></a></li>
         </ul>
     </nav>
 
     <section class="hero" id="home">
-        <div class="hero-badge animate__animated animate__fadeIn">7/24 Kesintisiz Hub Deneyimi</div>
-        <h1 class="hero-title animate__animated animate__fadeInUp">ARCES<br><b>NETWORK</b></h1>
-        <p style="opacity: 0.4; letter-spacing: 10px; text-transform: uppercase; margin-bottom: 40px;">Limitsiz Macera Başlıyor</p>
+        <div class="hero-title animate__animated animate__fadeInDown">
+            ARCES<br><span>NETWORK</span>
+        </div>
+        <p style="letter-spacing: 15px; opacity: 0.4; font-weight: 300;">HUB PORTAL SİSTEMİ v3.0</p>
         
-        <div class="copy-ip-card animate__animated animate__fadeInUp" onclick="copyIP()">
-            <div style="font-size: 0.6rem; opacity: 0.5; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px;">Sunucu Adresi</div>
-            <span class="ip-val" id="ipAddr">PLAY.ARCESNW.COM</span>
-            <div id="status-text" style="margin-top: 10px; font-size: 0.7rem; color: #00ff88; font-weight: 700;">● SUNUCU AKTİF</div>
+        <div class="ip-copy-wrapper animate__animated animate__fadeInUp" onclick="copyIP()">
+            <div style="width: 12px; height: 12px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 15px #00ff88;"></div>
+            <span class="ip-text" id="server-ip">PLAY.ARCESNW.COM</span>
+            <i class="fa-solid fa-copy" style="opacity: 0.3;"></i>
         </div>
     </section>
 
-    <section id="market">
-        <div class="sec-top">
-            <h2>MAĞAZA SİSTEMİ</h2>
-            <p>Sunucumuzu destekleyerek özel avantajlara sahip olabilirsiniz. Tüm ödemeler Tebex altyapısı ile korunmaktadır.</p>
-            <div class="line"></div>
+    <section id="market" data-aos="fade-up">
+        <div class="stitle">
+            <p>Ayrıcalıklar Dünyası</p>
+            <h2>MAĞAZA</h2>
         </div>
-        <div class="market-wrap">
-            <div class="m-card">
-                <div class="m-tag">POPÜLER</div>
-                <h3 style="font-family: var(--text-logo);">VIP</h3>
-                <div class="m-price">45<span>₺</span></div>
-                <ul class="m-features">
-                    <li><i class="fas fa-check"></i> VIP Özel Kiti</li>
-                    <li><i class="fas fa-check"></i> Sohbet Renk Yetkisi</li>
-                    <li><i class="fas fa-check"></i> Dolu Sunucuya Giriş</li>
-                    <li><i class="fas fa-check"></i> /fly Yetkisi (Sınırlı)</li>
+        <div class="market-grid">
+            <div class="product-card">
+                <h3 style="font-family: var(--font-logo);">ARCES+ VIP</h3>
+                <div class="p-price">85<span>₺</span></div>
+                <ul style="list-style: none; text-align: left; margin-bottom: 40px; opacity: 0.7;">
+                    <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: var(--p);"></i> Sınırsız /fly yetkisi</li>
+                    <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: var(--p);"></i> 10 adet özel VIP kiti</li>
+                    <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: var(--p);"></i> VIP özel slotu</li>
                 </ul>
-                <a href="https://arcesnw.tebex.io" class="m-btn">SATIN AL</a>
+                <a href="https://arcesnw.tebex.io" class="p-btn">HEMEN AL</a>
             </div>
-            <div class="m-card">
-                <div class="m-tag" style="background: var(--p);">EFSANEVİ</div>
-                <h3 style="font-family: var(--text-logo);">MVP+</h3>
-                <div class="m-price">120<span>₺</span></div>
-                <ul class="m-features">
-                    <li><i class="fas fa-check"></i> Tüm Sunucularda MVP Tagı</li>
-                    <li><i class="fas fa-check"></i> Özel Kanat Efektleri</li>
-                    <li><i class="fas fa-check"></i> Sınırsız Arsa/Ada Hakkı</li>
-                    <li><i class="fas fa-check"></i> Haftalık Nakit Ödülü</li>
+            <div class="product-card" style="border-color: var(--a);">
+                <div style="position: absolute; top: 20px; right: 20px; background: var(--a); font-size: 0.6rem; padding: 5px 15px; border-radius: 10px; font-weight: 900;">EN ÇOK SATAN</div>
+                <h3 style="font-family: var(--font-logo);">UNLIMITED</h3>
+                <div class="p-price">199<span>₺</span></div>
+                <ul style="list-style: none; text-align: left; margin-bottom: 40px; opacity: 0.7;">
+                    <li style="margin-bottom: 10px;"><i class="fas fa-bolt" style="color: var(--a);"></i> Tüm sunucularda rütbe</li>
+                    <li style="margin-bottom: 10px;"><i class="fas fa-bolt" style="color: var(--a);"></i> Özel kanat ve efektler</li>
+                    <li style="margin-bottom: 10px;"><i class="fas fa-bolt" style="color: var(--a);"></i> Aylık 1.000.000 oyun parası</li>
                 </ul>
-                <a href="https://arcesnw.tebex.io" class="m-btn">SATIN AL</a>
-            </div>
-            <div class="m-card">
-                <h3 style="font-family: var(--text-logo);">KOZMETİK</h3>
-                <div class="m-price">25<span>₺</span></div>
-                <ul class="m-features">
-                    <li><i class="fas fa-check"></i> 50+ Kasa Anahtarı</li>
-                    <li><i class="fas fa-check"></i> Rastgele Skin Paketi</li>
-                    <li><i class="fas fa-check"></i> Lobide Uçma Yetkisi</li>
-                </ul>
-                <a href="https://arcesnw.tebex.io" class="m-btn">SATIN AL</a>
+                <a href="https://arcesnw.tebex.io" class="p-btn" style="background: var(--a); color: #fff;">SATIN AL</a>
             </div>
         </div>
     </section>
 
-    <section id="wiki" style="background: rgba(0,0,0,0.2);">
-        <div class="sec-top">
-            <h2>SUNUCU WIKI & SİSTEMLER</h2>
-            <p>ArcesNW'yi diğerlerinden ayıran marjinal sistemlerimizi inceleyin.</p>
-            <div class="line"></div>
+    <section id="support" data-aos="fade-up">
+        <div class="stitle">
+            <p>Bize Ulaşın</p>
+            <h2>DESTEK TALEBİ</h2>
         </div>
-        <div class="wiki-grid">
-            <div class="wiki-box">
-                <h4><i class="fas fa-coins"></i> DİNAMİK EKONOMİ</h4>
-                <div class="wiki-content">
-                    Sunucumuzdaki market fiyatları, oyuncuların alışveriş yoğunluğuna göre her saat başı otomatik olarak güncellenir. Arz-talep dengesini koruyan bu sistemle ticaretin nabzını tutun.
+        <div class="support-container">
+            <div>
+                <h3 style="font-family: var(--font-logo); font-size: 1.5rem; margin-bottom: 20px;">Bir Sorun mu Var?</h3>
+                <p style="opacity: 0.5; margin-bottom: 30px;">Sunucumuzda yaşadığınız teknik sorunları veya şikayetleri buradan bize iletebilirsiniz. Ekibimiz en geç 24 saat içinde size dönüş yapacaktır.</p>
+                <div style="background: rgba(88,101,242,0.1); padding: 30px; border-radius: 20px; border: 1px solid #5865F2;">
+                    <h4 style="color: #5865F2; margin-bottom: 10px;"><i class="fab fa-discord"></i> Discord Destek</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">Daha hızlı çözüm için Discord sunucumuzdaki #destek kanalını kullanabilirsiniz.</p>
                 </div>
             </div>
-            <div class="wiki-box">
-                <h4><i class="fas fa-user-shield"></i> GELİŞMİŞ KLANLAR</h4>
-                <div class="wiki-content">
-                    Sıradan klan sistemlerini unutun. Klan seviyesi, klan bankası, özel klan görevleri ve klanlar arası ittifak/savaş modları ile gerçek bir strateji deneyimi sunuyoruz.
-                </div>
-            </div>
-            <div class="wiki-box">
-                <h4><i class="fas fa-gem"></i> ÖZEL YETENEKLER</h4>
-                <div class="wiki-content">
-                    Meslekler ve yetenek ağacı sistemi sayesinde kazdıkça, savaştıkça veya balık tuttukça seviye atlayın. Kazandığınız puanlarla pasif özelliklerinizi (hız, güç, şans) kalıcı olarak artırın.
-                </div>
-            </div>
-            <div class="wiki-box">
-                <h4><i class="fas fa-broadcast-tower"></i> SESLİ İLETİŞİM</h4>
-                <div class="wiki-content">
-                    Sunucumuzda Discord entegrasyonu mevcuttur. Yakınlık bazlı sesli sohbet (Proximity Voice) desteği ile arkadaşlarınızla oyun içinden iletişim kurabilirsiniz.
-                </div>
-            </div>
+            <form class="ticket-form" onsubmit="event.preventDefault(); alert('Destek talebiniz başarıyla gönderildi!');">
+                <input type="text" placeholder="Minecraft Kullanıcı Adınız" required>
+                <input type="email" placeholder="E-posta Adresiniz" required>
+                <select style="width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 15px; color: #fff; margin-bottom: 20px;">
+                    <option value="genel">Genel Sorun</option>
+                    <option value="odeme">Ödeme Sorunu</option>
+                    <option value="sikayet">Oyuncu Şikayeti</option>
+                </select>
+                <textarea rows="5" placeholder="Sorununuzu detaylıca açıklayın..." required></textarea>
+                <button type="submit">TALEBİ GÖNDER</button>
+            </form>
         </div>
     </section>
 
-    <section id="staff">
-        <div class="sec-top" style="text-align: center;">
-            <h2 style="display: inline-block;">YÖNETİM EKİBİ</h2>
-            <div class="line" style="margin: 15px auto;"></div>
+    <section id="staff" data-aos="fade-up">
+        <div class="stitle" style="text-align: center;">
+            <p>Sahiplerimiz</p>
+            <h2>EKİBİMİZ</h2>
         </div>
-        <div class="staff-container">
-            <div class="staff-profile">
-                <div class="staff-hex"><img src="https://minotar.net/armor/bust/MHF_Steve/128.png"></div>
-                <div class="s-rank">Kurucu / CEO</div>
-                <div class="s-name">ArcesOwner</div>
+        <div class="staff-wrap">
+            <div class="staff-box">
+                <div class="staff-img-box"><img src="https://minotar.net/armor/bust/Steve/128.png"></div>
+                <div style="color: var(--p); font-weight: 900; letter-spacing: 3px; font-size: 0.7rem;">KURUCU</div>
+                <div style="font-family: var(--font-logo); font-size: 1.2rem;">ArcesFounder</div>
             </div>
-            <div class="staff-profile">
-                <div class="staff-hex"><img src="https://minotar.net/armor/bust/MHF_Alex/128.png"></div>
-                <div class="s-rank">Sistem Mimarı</div>
-                <div class="s-name">Admin_X</div>
-            </div>
-            <div class="staff-profile">
-                <div class="staff-hex"><img src="https://minotar.net/armor/bust/MHF_Villager/128.png"></div>
-                <div class="s-rank">Topluluk Sorumlusu</div>
-                <div class="s-name">Helper_Q</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="faq">
-        <div class="sec-top">
-            <h2>SIKÇA SORULAN SORULAR</h2>
-            <div class="line"></div>
-        </div>
-        <div class="faq-wrap">
-            <div class="faq-item" onclick="toggleFAQ(this)">
-                <div class="faq-q">Sunucu hangi sürümleri destekliyor? <i class="fas fa-plus"></i></div>
-                <div class="faq-a">Sunucumuz 1.16.5 ile 1.20.x arasındaki tüm sürümlerle giriş yapmanıza olanak sağlar. Ancak en iyi deneyim için 1.20.1 sürümünü öneririz.</div>
-            </div>
-            <div class="faq-item" onclick="toggleFAQ(this)">
-                <div class="faq-q">Kayıt işlemini nasıl yaparım? <i class="fas fa-plus"></i></div>
-                <div class="faq-a">Sunucuya ilk girdiğinizde /register [şifre] [şifre] komutu ile kayıt olabilirsiniz. Sonraki girişlerinizde /login [şifre] yeterlidir.</div>
-            </div>
-            <div class="faq-item" onclick="toggleFAQ(this)">
-                <div class="faq-q">Yetkili alımları var mı? <i class="fas fa-plus"></i></div>
-                <div class="faq-a">Zaman zaman Discord sunucumuz üzerinden başvuru formları açılmaktadır. #duyuru kanalını takipte kalın.</div>
+            <div class="staff-box">
+                <div class="staff-img-box"><img src="https://minotar.net/armor/bust/Alex/128.png"></div>
+                <div style="color: var(--p); font-weight: 900; letter-spacing: 3px; font-size: 0.7rem;">ADMIN</div>
+                <div style="font-family: var(--font-logo); font-size: 1.2rem;">ArcesAdmin</div>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="f-grid">
-            <div class="f-col">
-                <h3>ARCES<span>NW</span></h3>
-                <p>Türkiye'nin en gelişmiş ve adaletli oyun platformu. Marjinal sistemler, kesintisiz eğlence ve samimi bir topluluk için ArcesNW her zaman yanınızda.</p>
-                <div style="display: flex; gap: 15px; font-size: 1.2rem;">
-                    <i class="fab fa-discord" style="color: #5865F2;"></i>
-                    <i class="fab fa-youtube" style="color: #FF0000;"></i>
-                    <i class="fab fa-instagram" style="color: #E1306C;"></i>
-                </div>
+            <div class="f-brand">
+                <h2>ARCES<span>NW</span></h2>
+                <p style="opacity: 0.4; line-height: 1.8;">Türkiye'nin en marjinal Minecraft hub sunucusu. Yeni nesil sistemler ve kesintisiz performansın tek adresi.</p>
             </div>
-            <div class="f-col">
-                <h4>HIZLI MENÜ</h4>
+            <div class="f-links">
+                <h4>SAYFALAR</h4>
                 <ul>
+                    <li>Ana Sayfa</li>
+                    <li>Sistemler</li>
                     <li>Mağaza</li>
-                    <li>Wiki</li>
-                    <li>Sıralama</li>
-                    <li>Cezalar</li>
+                    <li>Kurallar</li>
                 </ul>
             </div>
-            <div class="f-col">
-                <h4>YARDIM</h4>
+            <div class="f-links">
+                <h4>SOSYAL</h4>
                 <ul>
-                    <li>Destek Talebi</li>
-                    <li>Şikayet Bildir</li>
-                    <li>Kullanım Şartları</li>
-                    <li>Gizlilik</li>
+                    <li>Discord</li>
+                    <li>Instagram</li>
+                    <li>YouTube</li>
                 </ul>
-            </div>
-            <div class="f-col">
-                <h4>SUNUCU DURUMU</h4>
-                <p>IP: play.arcesnw.com</p>
-                <p>Durum: <span style="color: #00ff88;">Online</span></p>
-                <p>Lokasyon: Türkiye</p>
             </div>
         </div>
-        <div style="text-align: center; opacity: 0.2; font-size: 0.7rem; border-top: 1px solid var(--border); padding-top: 30px;">
-            &copy; 2024-2026 ArcesNW Network. Bu web sitesi tasarımı ArcesNW topluluğuna özeldir. Minecraft, Mojang AB'nin tescilli markasıdır.
+        <div style="margin-top: 80px; text-align: center; opacity: 0.2; font-size: 0.7rem; border-top: 1px solid var(--border); padding-top: 40px;">
+            &copy; 2026 ArcesNW Network. Bu tasarım ArcesNW adına tescillidir.
         </div>
     </footer>
 
-    <div id="toast">ADRES KOPYALANDI!</div>
+    <div id="toast">IP KOPYALANDI!</div>
 
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        // NAVBAR SCROLL EFFECT
-        window.onscroll = function() {
-            let nav = document.getElementById("mainNav");
-            if (window.pageYOffset > 50) {
-                nav.classList.add("sticky");
-            } else {
-                nav.classList.remove("sticky");
-            }
-        };
+        AOS.init({ duration: 1000, once: true });
 
-        // IP COPY FUNCTION
+        // CANVAS BACKGROUND ANIMATION
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let dots = [];
+        for(let i=0; i<60; i++) {
+            dots.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0, 210, 255, 0.3)";
+            dots.forEach(d => {
+                d.x += d.vx; d.y += d.vy;
+                if(d.x < 0 || d.x > canvas.width) d.vx *= -1;
+                if(d.y < 0 || d.y > canvas.height) d.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, 2, 0, Math.PI*2);
+                ctx.fill();
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+
         function copyIP() {
-            const ip = "PLAY.ARCESNW.COM";
-            navigator.clipboard.writeText(ip);
+            navigator.clipboard.writeText("PLAY.ARCESNW.COM");
             const t = document.getElementById("toast");
             t.className = "show";
             setTimeout(() => { t.className = ""; }, 3000);
         }
-
-        // FAQ TOGGLE
-        function toggleFAQ(element) {
-            const a = element.querySelector('.faq-a');
-            const icon = element.querySelector('i');
-            if (a.style.display === "block") {
-                a.style.display = "none";
-                icon.className = "fas fa-plus";
-            } else {
-                a.style.display = "block";
-                icon.className = "fas fa-minus";
-            }
-        }
-
-        // AUTO-PLAYER COUNT API (MOCKUP)
-        async function fetchMC() {
-            try {
-                const r = await fetch('https://api.mcstatus.io/v2/status/java/play.arcesnw.com');
-                const d = await r.json();
-                if(d.online) {
-                    document.getElementById('status-text').innerText = `● ${d.players.online} OYUNCU AKTİF`;
-                }
-            } catch(e) {}
-        }
-        setInterval(fetchMC, 30000); fetchMC();
     </script>
 </body>
 </html>
