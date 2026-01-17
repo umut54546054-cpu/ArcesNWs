@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArcesNW | Master Portal v13</title>
+    <title>ArcesNW | Quantum Admin Control</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,134 +11,174 @@
 
     <style>
         :root { --p: #00f2ff; }
-        body { background: #030712; color: #fff; font-family: 'Inter', sans-serif; cursor: none !important; overflow-x: hidden; margin: 0; }
+        body { background: #02040a; color: #fff; font-family: 'Inter', sans-serif; cursor: none !important; margin: 0; overflow: hidden; }
         
-        /* CUSTOM CURSOR */
-        #c-dot { width: 8px; height: 8px; background: var(--p); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; top: 0; left: 0; }
-        #c-out { width: 35px; height: 35px; border: 1.5px solid rgba(0, 242, 255, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99998; top: 0; left: 0; transition: transform 0.1s; }
-
-        /* GLASS CARD */
-        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
-        .text-gradient { background: linear-gradient(135deg, #00f2ff, #50C878); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        /* ADMIN PANEL - KESİN GÖRÜNÜRLÜK AYARI */
-        #admin-panel {
-            display: none; /* Varsayılan olarak kapalı */
-            position: fixed;
-            inset: 0;
-            z-index: 100000; /* En üst katman */
-            background: #050505;
-            padding: 2rem;
-            overflow-y: auto;
+        /* HAREKETLİ ARKA PLAN (UZAY ETKİSİ) */
+        .bg-space {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at center, #0a192f 0%, #02040a 100%);
+            z-index: -1;
+        }
+        .stars {
+            position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%;
+            opacity: 0.3; animation: twinkle 3s infinite;
         }
 
-        .floating { animation: float 6s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+
+        /* CUSTOM CURSOR */
+        #c-dot { width: 8px; height: 8px; background: var(--p); border-radius: 50%; position: fixed; pointer-events: none; z-index: 999999; }
+        #c-out { width: 35px; height: 35px; border: 1.5px solid var(--p); border-radius: 50%; position: fixed; pointer-events: none; z-index: 999998; transition: transform 0.1s ease-out; }
+
+        /* ADMIN DASHBOARD */
+        #admin-panel {
+            display: none; position: fixed; inset: 0; z-index: 100000;
+            background: rgba(2, 4, 10, 0.98); backdrop-filter: blur(20px);
+            padding: 2rem; overflow-y: auto;
+        }
+
+        .control-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.5rem; transition: 0.3s; }
+        .control-card:hover { border-color: var(--p); background: rgba(0, 242, 255, 0.05); }
+
+        .btn-action { width: 100%; padding: 10px; border-radius: 6px; font-size: 11px; font-family: 'Orbitron'; margin-top: 10px; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-red { color: #ff4d4d; border-color: #ff4d4d33; }
+        .btn-red:hover { background: #ff4d4d; color: white; }
+        .btn-blue { color: var(--p); border-color: #00f2ff33; }
+        .btn-blue:hover { background: var(--p); color: black; }
     </style>
 </head>
 <body>
 
     <div id="c-dot"></div>
     <div id="c-out"></div>
+    <div class="bg-space" id="star-container"></div>
 
-    <main class="min-h-screen flex flex-col items-center justify-center p-6" id="main-content">
-        <div class="text-center">
-            <h1 class="font-['Orbitron'] text-7xl md:text-9xl font-black mb-4 floating text-gradient">ARCESNW</h1>
-            <p class="font-['Orbitron'] tracking-[15px] opacity-30 text-sm mb-12 uppercase">Skyblock Elite</p>
-            
-            <div class="glass p-8 inline-flex items-center gap-6 border-l-4 border-[#00f2ff] cursor-pointer hover:bg-white/5 transition-all" onclick="copyIP()">
-                <i class="fas fa-bolt text-[#00f2ff] text-3xl"></i>
-                <div class="text-left">
-                    <p class="text-[10px] font-['Orbitron'] opacity-40">SUNUCU ADRESI</p>
-                    <p class="text-2xl font-bold tracking-widest">PLAY.ARCESNW.COM</p>
-                </div>
-            </div>
+    <main class="min-h-screen flex flex-col items-center justify-center relative" id="main-content">
+        <h1 class="font-['Orbitron'] text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-[#00f2ff] to-[#4682B4] mb-4">ARCESNW</h1>
+        <p class="font-['Orbitron'] tracking-[20px] opacity-20 text-sm mb-10">SKYBLOCK ELITE</p>
+        <div class="px-10 py-5 border border-white/10 bg-white/5 backdrop-blur-md rounded-full cursor-pointer hover:border-[#00f2ff] transition-all" onclick="copyIP()">
+            <span class="font-mono text-xl tracking-widest uppercase">play.arcesnw.com</span>
         </div>
     </main>
 
     <div id="admin-panel">
         <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
+            <header class="flex justify-between items-center mb-10 border-b border-white/5 pb-6">
                 <div>
-                    <h2 class="font-['Orbitron'] text-3xl text-[#00f2ff]">ADMIN TERMINAL</h2>
-                    <p class="font-mono text-[10px] opacity-40">Status: Secure Connection Established</p>
+                    <h2 class="font-['Orbitron'] text-3xl text-[#00f2ff] uppercase italic">Quantum Core Terminal</h2>
+                    <p class="text-[10px] font-mono opacity-30 mt-1 uppercase">Root Authorization: Granted</p>
                 </div>
-                <button onclick="toggleAdmin()" class="bg-red-500/20 text-red-500 border border-red-500/50 px-6 py-2 rounded font-['Orbitron'] text-xs hover:bg-red-500 hover:text-white transition-all">
-                    TERMINALDEN ÇIK
-                </button>
+                <button onclick="toggleAdmin()" class="bg-white/5 border border-white/10 px-6 py-2 rounded text-xs hover:bg-red-500 transition-all font-['Orbitron']">ÇIKIŞ YAP</button>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                
+                <div class="control-card">
+                    <h3 class="text-xs font-['Orbitron'] opacity-50 mb-4"><i class="fas fa-power-off mr-2"></i>SUNUCU GÜCÜ</h3>
+                    <button class="btn-action btn-blue" onclick="log('Sunucu yeniden başlatılıyor...')">RESTART</button>
+                    <button class="btn-action btn-red" onclick="log('Sunucu durduruldu!')">STOP</button>
+                </div>
+
+                <div class="control-card">
+                    <h3 class="text-xs font-['Orbitron'] opacity-50 mb-4"><i class="fas fa-chart-line mr-2"></i>BORSA KONTROL</h3>
+                    <button class="btn-action btn-blue" onclick="log('Piyasa fiyatları yükseltildi.')">FİYATLARI ARTIR</button>
+                    <button class="btn-action btn-blue" onclick="log('Piyasa fiyatları düşürüldü.')">FİYATLARI DÜŞÜR</button>
+                </div>
+
+                <div class="control-card">
+                    <h3 class="text-xs font-['Orbitron'] opacity-50 mb-4"><i class="fas fa-cloud-sun mr-2"></i>DÜNYA / HAVA</h3>
+                    <button class="btn-action" onclick="log('Hava güneşli yapıldı.')">GÜNEŞLİ</button>
+                    <button class="btn-action" onclick="log('Hava yağmurlu yapıldı.')">YAĞMURLU</button>
+                </div>
+
+                <div class="control-card">
+                    <h3 class="text-xs font-['Orbitron'] opacity-50 mb-4"><i class="fas fa-bullhorn mr-2"></i>GENEL DUYURU</h3>
+                    <input type="text" id="announcement" placeholder="Mesaj yaz..." class="w-full bg-white/5 border border-white/10 p-2 text-[10px] outline-none rounded">
+                    <button class="btn-action btn-blue" onclick="sendMsg()">DUYURU GEÇ</button>
+                </div>
+
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                <div class="glass p-5 border-t-2 border-[#00f2ff]">
-                    <span class="text-[9px] font-['Orbitron'] opacity-50">OYUNCULAR</span>
-                    <p class="text-3xl font-bold">1,540</p>
+            <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="control-card bg-black h-80 overflow-y-auto font-mono text-[11px] text-emerald-500" id="terminal">
+                    <p>> ArcesNW Core initialized...</p>
+                    <p>> System check: OK</p>
                 </div>
-                <div class="glass p-5 border-t-2 border-green-500">
-                    <span class="text-[9px] font-['Orbitron'] opacity-50">TPS</span>
-                    <p class="text-3xl font-bold text-green-500">20.0</p>
-                </div>
-                <div class="glass p-5 border-t-2 border-yellow-500">
-                    <span class="text-[9px] font-['Orbitron'] opacity-50">REPORT</span>
-                    <p class="text-3xl font-bold">12</p>
-                </div>
-                <div class="glass p-5 border-t-2 border-white/20">
-                    <span class="text-[9px] font-['Orbitron'] opacity-50">CPU</span>
-                    <p class="text-3xl font-bold">%18</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="glass p-4 h-64 bg-black/40 font-mono text-[11px] text-cyan-500/80 overflow-y-auto" id="console">
-                    <p>> Arces-OS v1.0 Loading...</p>
-                    <p>> [SUCCESS] Database connected.</p>
-                    <p>> [INFO] 5 players banned for cheating.</p>
-                    <p>> [LOG] Admin Umut authorized.</p>
-                </div>
-                <div class="glass p-4 h-64 overflow-y-auto">
-                    <h3 class="text-[10px] font-['Orbitron'] mb-4 opacity-50 underline">GÜVENLİK KAYITLARI</h3>
-                    <div class="space-y-2 text-xs">
-                        <p class="flex justify-between opacity-70 italic border-b border-white/5 pb-1"><span>Steve_Master - Fly Hack</span> <span class="text-red-500">BANLANDI</span></p>
-                        <p class="flex justify-between opacity-70 italic border-b border-white/5 pb-1"><span>Alex_Pro - Küfür</span> <span class="text-yellow-500">MUTELANDI</span></p>
+                <div class="control-card h-80 overflow-y-auto">
+                    <h3 class="text-[10px] font-['Orbitron'] mb-4 opacity-40 italic border-b border-white/5 pb-2">Hızlı İşlemler</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-xs opacity-70">
+                            <span>Herkesi Lobiye Gönder</span>
+                            <button class="px-3 py-1 bg-white/5 rounded hover:bg-white/10" onclick="log('Tüm oyuncular lobiye aktarıldı.')">UYGULA</button>
+                        </div>
+                        <div class="flex justify-between items-center text-xs opacity-70">
+                            <span>Madenleri Yenile</span>
+                            <button class="px-3 py-1 bg-white/5 rounded hover:bg-white/10" onclick="log('Maden alanları resetlendi.')">UYGULA</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <button onclick="toggleAdmin()" style="cursor: pointer !important; z-index: 99995;" class="fixed bottom-6 right-6 w-14 h-14 bg-[#00f2ff]/10 border border-[#00f2ff]/30 rounded-full flex items-center justify-center text-[#00f2ff] hover:bg-[#00f2ff] hover:text-black transition-all shadow-[0_0_15px_rgba(0,242,255,0.2)]">
-        <i class="fas fa-terminal text-lg"></i>
+    <button onclick="toggleAdmin()" style="z-index: 100001;" class="fixed bottom-6 right-6 w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/20 hover:text-[#00f2ff] hover:border-[#00f2ff] transition-all">
+        <i class="fas fa-terminal text-sm"></i>
     </button>
 
     <script>
-        // İMLEÇ KODU
+        // STARS GENERATOR
+        const container = document.getElementById('star-container');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'stars';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            container.appendChild(star);
+        }
+
+        // CURSOR
         const dot = document.getElementById('c-dot');
         const out = document.getElementById('c-out');
-
         window.addEventListener('mousemove', (e) => {
-            dot.style.left = e.clientX + 'px';
-            dot.style.top = e.clientY + 'px';
-            out.style.left = (e.clientX - 17) + 'px';
-            out.style.top = (e.clientY - 17) + 'px';
+            dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            out.style.transform = `translate(${e.clientX - 17}px, ${e.clientY - 17}px)`;
         });
 
-        // AÇ-KAPAT FONKSİYONU (KESİN ÇÖZÜM)
+        // TOGGLE LOGIC
         function toggleAdmin() {
             const panel = document.getElementById('admin-panel');
             const main = document.getElementById('main-content');
-            
             if (panel.style.display === "none" || panel.style.display === "") {
-                panel.style.display = "block"; // Paneli göster
-                main.style.display = "none";  // Ana siteyi gizle (çakışmasın)
-                document.body.style.cursor = "default"; // Admin panelinde normal fare
+                panel.style.display = "block";
+                main.style.filter = "blur(10px)";
+                document.body.style.cursor = "default";
             } else {
-                panel.style.display = "none";  // Paneli kapat
-                main.style.display = "flex";   // Ana siteyi geri getir
-                document.body.style.cursor = "none"; // Siteye dönünce özel imleç
+                panel.style.display = "none";
+                main.style.filter = "none";
+                document.body.style.cursor = "none";
+            }
+        }
+
+        // CONSOLE LOGIC
+        function log(msg) {
+            const term = document.getElementById('terminal');
+            const time = new Date().toLocaleTimeString();
+            term.innerHTML += `<p class="mt-1 opacity-50">[${time}] > ${msg}</p>`;
+            term.scrollTop = term.scrollHeight;
+        }
+
+        function sendMsg() {
+            const val = document.getElementById('announcement').value;
+            if(val) {
+                log(`DUYURU: ${val}`);
+                document.getElementById('announcement').value = '';
+                alert("Duyuru başarıyla gönderildi!");
             }
         }
 
         function copyIP() {
-            navigator.clipboard.writeText("PLAY.ARCESNW.COM");
+            navigator.clipboard.writeText("play.arcesnw.com");
             alert("IP Adresi Kopyalandı!");
         }
     </script>
