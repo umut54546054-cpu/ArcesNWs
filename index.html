@@ -3,42 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArcesNW | Master Portal v12.5</title>
+    <title>ArcesNW | Master Portal v13</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        sky: { light: '#00f2ff', dark: '#005F73' },
-                        gold: '#FFD700',
-                        emerald: '#50C878',
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
         :root { --p: #00f2ff; }
-        body { background: #030712; color: #fff; font-family: 'Inter', sans-serif; cursor: none !important; overflow-x: hidden; }
+        body { background: #030712; color: #fff; font-family: 'Inter', sans-serif; cursor: none !important; overflow-x: hidden; margin: 0; }
         
         /* CUSTOM CURSOR */
-        #c-dot { width: 8px; height: 8px; background: var(--p); border-radius: 50%; position: fixed; pointer-events: none; z-index: 10001; }
-        #c-out { width: 35px; height: 35px; border: 1.5px solid rgba(0, 242, 255, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000; transition: 0.1s; }
+        #c-dot { width: 8px; height: 8px; background: var(--p); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; top: 0; left: 0; }
+        #c-out { width: 35px; height: 35px; border: 1.5px solid rgba(0, 242, 255, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99998; top: 0; left: 0; transition: transform 0.1s; }
 
         /* GLASS CARD */
         .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
-        
         .text-gradient { background: linear-gradient(135deg, #00f2ff, #50C878); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* ADMIN PANEL TRANSITION */
-        #admin-panel { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; pointer-events: none; transform: scale(1.1); }
-        #admin-panel.active { opacity: 1; pointer-events: auto; transform: scale(1); }
+        /* ADMIN PANEL - KESİN GÖRÜNÜRLÜK AYARI */
+        #admin-panel {
+            display: none; /* Varsayılan olarak kapalı */
+            position: fixed;
+            inset: 0;
+            z-index: 100000; /* En üst katman */
+            background: #050505;
+            padding: 2rem;
+            overflow-y: auto;
+        }
 
         .floating { animation: float 6s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
@@ -49,111 +41,105 @@
     <div id="c-dot"></div>
     <div id="c-out"></div>
 
-    <main class="min-h-screen flex flex-col items-center justify-center p-6" id="main-site">
+    <main class="min-h-screen flex flex-col items-center justify-center p-6" id="main-content">
         <div class="text-center">
             <h1 class="font-['Orbitron'] text-7xl md:text-9xl font-black mb-4 floating text-gradient">ARCESNW</h1>
-            <p class="font-['Orbitron'] tracking-[15px] opacity-30 text-sm mb-12">SKYBLOCK ELITE</p>
+            <p class="font-['Orbitron'] tracking-[15px] opacity-30 text-sm mb-12 uppercase">Skyblock Elite</p>
             
-            <div class="glass p-8 inline-flex items-center gap-6 border-l-4 border-sky-light group hover:scale-105 transition-all" onclick="copyIP()">
-                <i class="fas fa-bolt text-sky-light text-3xl"></i>
+            <div class="glass p-8 inline-flex items-center gap-6 border-l-4 border-[#00f2ff] cursor-pointer hover:bg-white/5 transition-all" onclick="copyIP()">
+                <i class="fas fa-bolt text-[#00f2ff] text-3xl"></i>
                 <div class="text-left">
-                    <p class="text-[10px] font-['Orbitron'] opacity-40">SERVER ADDRESS</p>
+                    <p class="text-[10px] font-['Orbitron'] opacity-40">SUNUCU ADRESI</p>
                     <p class="text-2xl font-bold tracking-widest">PLAY.ARCESNW.COM</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <div id="admin-panel" class="fixed inset-0 z-[9000] bg-[#050505] p-6 md:p-12 overflow-y-auto">
-        <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-8">
-            <div>
-                <h2 class="font-['Orbitron'] text-4xl text-sky-light">ADMIN TERMINAL</h2>
-                <p class="text-xs font-mono opacity-40">System: Arces-Core v12.5 | User: Master_Admin</p>
+    <div id="admin-panel">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
+                <div>
+                    <h2 class="font-['Orbitron'] text-3xl text-[#00f2ff]">ADMIN TERMINAL</h2>
+                    <p class="font-mono text-[10px] opacity-40">Status: Secure Connection Established</p>
+                </div>
+                <button onclick="toggleAdmin()" class="bg-red-500/20 text-red-500 border border-red-500/50 px-6 py-2 rounded font-['Orbitron'] text-xs hover:bg-red-500 hover:text-white transition-all">
+                    TERMINALDEN ÇIK
+                </button>
             </div>
-            <button onclick="toggleAdmin()" class="px-8 py-3 glass hover:bg-white/10 transition-all font-['Orbitron'] text-xs text-red-400">
-                SİSTEMDEN ÇIK
-            </button>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="glass p-6 border-t-2 border-sky-light">
-                <p class="text-[10px] font-['Orbitron'] opacity-40">AKTİF OYUNCU</p>
-                <p class="text-4xl font-black mt-2">1,540</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="glass p-5 border-t-2 border-[#00f2ff]">
+                    <span class="text-[9px] font-['Orbitron'] opacity-50">OYUNCULAR</span>
+                    <p class="text-3xl font-bold">1,540</p>
+                </div>
+                <div class="glass p-5 border-t-2 border-green-500">
+                    <span class="text-[9px] font-['Orbitron'] opacity-50">TPS</span>
+                    <p class="text-3xl font-bold text-green-500">20.0</p>
+                </div>
+                <div class="glass p-5 border-t-2 border-yellow-500">
+                    <span class="text-[9px] font-['Orbitron'] opacity-50">REPORT</span>
+                    <p class="text-3xl font-bold">12</p>
+                </div>
+                <div class="glass p-5 border-t-2 border-white/20">
+                    <span class="text-[9px] font-['Orbitron'] opacity-50">CPU</span>
+                    <p class="text-3xl font-bold">%18</p>
+                </div>
             </div>
-            <div class="glass p-6 border-t-2 border-emerald">
-                <p class="text-[10px] font-['Orbitron'] opacity-40">SUNUCU DURUMU</p>
-                <p class="text-4xl font-black mt-2 text-emerald">ONLINE</p>
-            </div>
-            <div class="glass p-6 border-t-2 border-gold">
-                <p class="text-[10px] font-['Orbitron'] opacity-40">TPS DEĞERİ</p>
-                <p class="text-4xl font-black mt-2">19.95</p>
-            </div>
-            <div class="glass p-6 border-t-2 border-white/20">
-                <p class="text-[10px] font-['Orbitron'] opacity-40">CPU</p>
-                <p class="text-4xl font-black mt-2">%14</p>
-            </div>
-        </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="glass p-6 bg-black/50 font-mono text-[11px] text-sky-light/70 h-80 overflow-y-auto">
-                <p>> Initializing ArcesNW Security Protocols...</p>
-                <p class="text-emerald">> [SUCCESS] Firewall Active.</p>
-                <p>> [INFO] 124 players moved to Lobby-1.</p>
-                <p class="text-gold">> [WARN] Economy fluctuation detected in Stock-Market.</p>
-                <p>> [LOG] Admin "Umut" opened the dashboard.</p>
-            </div>
-            <div class="glass p-6 h-80 overflow-y-auto">
-                <h3 class="font-['Orbitron'] text-xs mb-4 opacity-40">SON BAĞLANANLAR</h3>
-                <div class="space-y-4">
-                    <div class="flex justify-between border-b border-white/5 pb-2">
-                        <span>Steve_Master</span>
-                        <span class="text-red-500 cursor-pointer">BAN</span>
-                    </div>
-                    <div class="flex justify-between border-b border-white/5 pb-2">
-                        <span>Alex_Skyblock</span>
-                        <span class="text-red-500 cursor-pointer">BAN</span>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass p-4 h-64 bg-black/40 font-mono text-[11px] text-cyan-500/80 overflow-y-auto" id="console">
+                    <p>> Arces-OS v1.0 Loading...</p>
+                    <p>> [SUCCESS] Database connected.</p>
+                    <p>> [INFO] 5 players banned for cheating.</p>
+                    <p>> [LOG] Admin Umut authorized.</p>
+                </div>
+                <div class="glass p-4 h-64 overflow-y-auto">
+                    <h3 class="text-[10px] font-['Orbitron'] mb-4 opacity-50 underline">GÜVENLİK KAYITLARI</h3>
+                    <div class="space-y-2 text-xs">
+                        <p class="flex justify-between opacity-70 italic border-b border-white/5 pb-1"><span>Steve_Master - Fly Hack</span> <span class="text-red-500">BANLANDI</span></p>
+                        <p class="flex justify-between opacity-70 italic border-b border-white/5 pb-1"><span>Alex_Pro - Küfür</span> <span class="text-yellow-500">MUTELANDI</span></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="fixed bottom-6 right-6 z-[8000]">
-        <button onclick="toggleAdmin()" id="admin-trigger" class="w-14 h-14 glass flex items-center justify-center text-sky-light hover:bg-sky-light hover:text-black transition-all shadow-[0_0_20px_rgba(0,242,255,0.2)]">
-            <i class="fas fa-lock text-xl"></i>
-        </button>
-    </div>
+    <button onclick="toggleAdmin()" style="cursor: pointer !important; z-index: 99995;" class="fixed bottom-6 right-6 w-14 h-14 bg-[#00f2ff]/10 border border-[#00f2ff]/30 rounded-full flex items-center justify-center text-[#00f2ff] hover:bg-[#00f2ff] hover:text-black transition-all shadow-[0_0_15px_rgba(0,242,255,0.2)]">
+        <i class="fas fa-terminal text-lg"></i>
+    </button>
 
     <script>
-        // CURSOR LOGIC
+        // İMLEÇ KODU
         const dot = document.getElementById('c-dot');
         const out = document.getElementById('c-out');
 
         window.addEventListener('mousemove', (e) => {
             dot.style.left = e.clientX + 'px';
             dot.style.top = e.clientY + 'px';
-            out.animate({ left: (e.clientX - 17) + 'px', top: (e.clientY - 17) + 'px' }, { duration: 400, fill: 'forwards' });
+            out.style.left = (e.clientX - 17) + 'px';
+            out.style.top = (e.clientY - 17) + 'px';
         });
 
-        // TOGGLE ADMIN DASHBOARD
+        // AÇ-KAPAT FONKSİYONU (KESİN ÇÖZÜM)
         function toggleAdmin() {
             const panel = document.getElementById('admin-panel');
-            const main = document.getElementById('main-site');
+            const main = document.getElementById('main-content');
             
-            panel.classList.toggle('active');
-            
-            if(panel.classList.contains('active')) {
-                document.body.style.cursor = 'default';
-                main.style.filter = 'blur(20px)';
+            if (panel.style.display === "none" || panel.style.display === "") {
+                panel.style.display = "block"; // Paneli göster
+                main.style.display = "none";  // Ana siteyi gizle (çakışmasın)
+                document.body.style.cursor = "default"; // Admin panelinde normal fare
             } else {
-                document.body.style.cursor = 'none';
-                main.style.filter = 'none';
+                panel.style.display = "none";  // Paneli kapat
+                main.style.display = "flex";   // Ana siteyi geri getir
+                document.body.style.cursor = "none"; // Siteye dönünce özel imleç
             }
         }
 
         function copyIP() {
             navigator.clipboard.writeText("PLAY.ARCESNW.COM");
-            alert("Sunucu IP adresi kopyalandı!");
+            alert("IP Adresi Kopyalandı!");
         }
     </script>
 </body>
