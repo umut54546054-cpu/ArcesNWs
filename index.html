@@ -1,103 +1,173 @@
-# ==========================================================================
-# ARCESNW SKYBLOCK - WEB THEME CONFIGURATION (MASTER YML)
-# ==========================================================================
-# Bu dosya sitenin CSS değişkenlerini ve görsel kimliğini tanımlar.
-# GitHub Pages üzerinde dinamik tema yönetimi için tasarlanmıştır.
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArcesNW | Skyblock Dashboard Test</title>
 
-metadata:
-  site-name: "ArcesNW Skyblock"
-  version: "2.5.0"
-  author: "ArcesNW Development"
-  framework: "Tailwind CSS + Orbitron System"
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-# --------------------------------------------------------------------------
-# 1. CORE COLOR TOKENS (HSL VALUES)
-# --------------------------------------------------------------------------
-theme-colors:
-  light:
-    background: "hsl(210, 50%, 98%)" # Temiz gökyüzü beyazı
-    foreground: "hsl(220, 60%, 10%)" # Derin okyanus metni
-    primary: "hsl(200, 85%, 45%)"    # Arces Sky Blue
-    accent: "hsl(145, 65%, 42%)"     # Minecraft Çimen Yeşili
-    secondary: "hsl(210, 30%, 90%)"  # Bulut Grisi
-    
-  dark:
-    background: "hsl(220, 60%, 8%)"  # Gece gökyüzü siyahı
-    foreground: "hsl(210, 30%, 95%)" # Yıldız ışığı metni
-    primary: "hsl(200, 90%, 55%)"    # Parlayan Neon Mavi
-    accent: "hsl(145, 70%, 50%)"     # Radyaktif Zümrüt
-    card: "hsl(220, 50%, 12%)"       # Gece Adası Kartı
+    <script>
+        // Tailwind Konfigürasyonu (YML'deki verileri buraya işledim)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: { light: '#87CEEB', dark: '#005F73' },
+                        gold: '#FFD700',
+                        diamond: '#b9f2ff',
+                        emerald: '#50C878',
+                        obsidian: '#1a1110'
+                    },
+                    fontFamily: {
+                        display: ['Orbitron', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 
-  special:
-    gold: "hsl(45, 100%, 55%)"       # VIP/Efsanevi Altın
-    diamond: "hsl(185, 75%, 55%)"    # Elmas Rütbe
-    obsidian: "hsl(260, 50%, 15%)"   # Yetkili/Admin Rengi
+    <style type="text/css">
+        /* SKYBLOCK DESIGN SYSTEM VARIABLES */
+        :root {
+            --primary: 200 85% 45%;
+            --accent: 145 65% 42%;
+            --bg-sky: linear-gradient(180deg, #87CEEB 0%, #4682B4 100%);
+            --shadow-glow: 0 0 30px rgba(0, 242, 255, 0.3);
+        }
 
-# --------------------------------------------------------------------------
-# 2. GRADIENT ENGINES (Dinamik Geçişler)
-# --------------------------------------------------------------------------
-gradients:
-  sky-render:
-    type: "linear"
-    direction: "180deg"
-    stops: ["hsl(200, 85%, 70%)", "hsl(220, 75%, 40%)"]
-  
-  hero-overlay:
-    type: "conic"
-    intensity: "0.03 opacity"
-    pattern: "minecraft-grid" # SVG Pattern tanımlı
-  
-  card-glass:
-    opacity: 0.8
-    blur: "20px"
-    border-gradient: "hsl(var(--primary)) to hsl(var(--accent))"
+        body {
+            background-color: #030712; /* Dark Sky Night */
+            color: #f3f4f6;
+            cursor: none !important; /* İmleci gizle */
+        }
 
-# --------------------------------------------------------------------------
-# 3. INTERACTIVE & MOTION (Animasyon Kontrolü)
-# --------------------------------------------------------------------------
-animations:
-  island-float:
-    name: "floating-animation"
-    duration: "6s"
-    curve: "ease-in-out"
-    offset-y: "-20px"
-    loop: "infinite"
+        /* DİNAMİK İMLEÇ MOTORU */
+        #c-dot {
+            width: 8px; height: 8px; background: #00f2ff; border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 9999; box-shadow: var(--shadow-glow);
+        }
+        #c-out {
+            width: 35px; height: 35px; border: 1.5px solid rgba(0, 242, 255, 0.4);
+            border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998;
+            transition: transform 0.15s ease-out;
+        }
 
-  aura-pulse:
-    name: "pulse-glow"
-    duration: "2s"
-    colors: ["rgba(200, 90, 55, 0.3)", "rgba(200, 90, 55, 0.6)"]
-    targets: [".glow-effect", ".primary-button"]
+        /* GLASS CARD & ANIMATIONS */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
 
-# --------------------------------------------------------------------------
-# 4. TYPOGRAPHY SYSTEM
-# --------------------------------------------------------------------------
-typography:
-  headings:
-    family: "'Orbitron', sans-serif"
-    weight: [700, 900]
-    letter-spacing: "0.1em"
-    text-transform: "uppercase"
-  
-  body-text:
-    family: "'Inter', system-ui"
-    weight: [300, 400, 600]
-    line-height: 1.6
+        .floating { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
 
-# --------------------------------------------------------------------------
-# 5. UI COMPONENTS (Tailwind Component Mapping)
-# --------------------------------------------------------------------------
-components:
-  pixel-border:
-    size: "4px"
-    rendering: "pixelated"
-    gradient-power: 1 # linear-gradient 1
-  
-  shadows:
-    soft: "0 4px 20px -4px rgba(210, 50, 20, 0.1)"
-    card: "0 8px 32px -8px rgba(210, 50, 20, 0.15)"
-    glow: "0 0 40px rgba(200, 90, 55, 0.25)"
+        .pixel-border {
+            border: 4px solid;
+            border-image: linear-gradient(135deg, #00f2ff, #50C878) 1;
+        }
 
-# ==========================================================================
-# END OF THEME CONFIG
-# ==========================================================================
+        /* TAILWIND LAYER OVERRIDES */
+        .text-gradient-sky {
+            background: linear-gradient(135deg, #00f2ff 0%, #50C878 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="font-body overflow-x-hidden">
+
+    <div id="c-dot"></div>
+    <div id="c-out"></div>
+
+    <div class="fixed inset-0 pointer-events-none opacity-20">
+        <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 30px 30px;"></div>
+    </div>
+
+    <main class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="text-center z-10">
+            <h1 class="font-display text-6xl md:text-8xl font-black mb-4 tracking-tighter floating">
+                ARCES<span class="text-gradient-sky">NW</span>
+            </h1>
+            <p class="font-display text-lg tracking-[10px] opacity-50 mb-12">SKYBLOCK ADALETI</p>
+
+            <div class="flex flex-wrap justify-center gap-6">
+                <div class="glass-card p-6 flex items-center gap-4 border-l-4 border-l-sky-light group hover:border-l-gold transition-all duration-500" onclick="copyIP()">
+                    <i class="fas fa-server text-sky-light text-2xl"></i>
+                    <div class="text-left">
+                        <div class="text-xs opacity-40 font-display">SUNUCU ADRESI</div>
+                        <div class="font-bold text-xl tracking-wider">PLAY.ARCESNW.COM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 w-full max-w-6xl px-4">
+            <div class="glass-card p-8 text-center group hover:scale-105 transition-transform">
+                <i class="fas fa-gem text-diamond text-4xl mb-4"></i>
+                <h3 class="font-display text-xl mb-2">BORSA</h3>
+                <p class="text-sm opacity-50">Dinamik arz-talep sistemiyle ticaretin kalbi burada atıyor.</p>
+            </div>
+            <div class="glass-card p-8 text-center group hover:scale-105 transition-transform border-t-2 border-emerald">
+                <i class="fas fa-leaf text-emerald text-4xl mb-4"></i>
+                <h3 class="font-display text-xl mb-2">ADA GELIŞIMI</h3>
+                <p class="text-sm opacity-50">Kendi gökyüzü krallığını kur, rütbeni yükselt ve hükmet.</p>
+            </div>
+            <div class="glass-card p-8 text-center group hover:scale-105 transition-transform">
+                <i class="fas fa-khanda text-gold text-4xl mb-4"></i>
+                <h3 class="font-display text-xl mb-2">KLAN SAVAŞLARI</h3>
+                <p class="text-sm opacity-50">Efsanevi arenalarda rakiplerini alt et, adını tarihe yaz.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-white/5 text-center text-xs opacity-30 font-display">
+        &copy; 2026 ARCESNW NETWORK - TÜM HAKLARI SAKLIDIR.
+    </footer>
+
+    <script>
+        // CURSOR SCRIPT
+        const dot = document.getElementById('c-dot');
+        const out = document.getElementById('c-out');
+
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            dot.style.left = x + 'px';
+            dot.style.top = y + 'px';
+            
+            out.animate({
+                left: (x - 17) + 'px',
+                top: (y - 17) + 'px'
+            }, { duration: 400, fill: 'forwards' });
+        });
+
+        // HOVER SENSE
+        const elements = document.querySelectorAll('div, i, h1, h3, p');
+        elements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                out.style.transform = 'scale(1.8)';
+                out.style.background = 'rgba(0, 242, 255, 0.05)';
+            });
+            el.addEventListener('mouseleave', () => {
+                out.style.transform = 'scale(1)';
+                out.style.background = 'transparent';
+            });
+        });
+
+        function copyIP() {
+            navigator.clipboard.writeText("PLAY.ARCESNW.COM");
+            alert("IP Adresi Kopyalandı!");
+        }
+    </script>
+</body>
+</html>
