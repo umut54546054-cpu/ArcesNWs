@@ -3,6 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArcesNW | Frost Admin Engine</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root { --p: #00f2ff; --snow: #ffffff; }
+        body { background: #050a14; color: #fff; font-family: 'Inter', sans-serif; cursor: none !important; margin: 0; overflow: hidden; }
+        
+        /* KAR YAĞIŞI EFEKTİ */
+        #snow-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+            background: linear-gradient(to bottom, #050a14 0%, #0a1428 100%);
+        }
+
+        /* CUSTOM CURSOR */
+        #c-dot { width: 8px; height: 8px; background: var(--p); border-radius: 50%; position: fixed; pointer-events: none; z-index: 999999; }
+        #c-out { width: 35px; height: 35px; border: 1.5px solid var(--p); border-radius: 50%; position: fixed; pointer-events: none; z-index: 999998; transition: transform 0.1s ease-out; }
+
+        /* ADMIN DASHBOARD */
+        #admin-panel {
+            display: none; position: fixed; inset: 0; z-index: 100000;
+            background: rgba(5, 10, 20, 0.95); backdrop-filter: blur(25px);
+            padding: 2rem; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .control-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; transition: 0.3s; }
+        .control-card:hover { border-color: var(--p); background: rgba(0, 242, 255, 0.03); transform: translateY(-3px); }
+
+        .btn-action { width: 100%; padding: 10px; border-radius: 6px; font-size: 11px; font-family: 'Orbitron'; margin-top: 10px; transition: 0.2s; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+        .btn-red { color: #ff4d4d; border-color: #ff4d4d33; }
+        .btn-red:hover { background: #ff4d4d; color: white; box-shadow: 0 0 15px #ff4d4d55; }
+        .btn-blue { color: var(--p); border-color: #00f2ff33; }
+        .btn-blue:hover { background: var(--p); color: black; box-shadow: 0 0 15px #00f2ff55; }
+    </style>
+</head>
+<body>
+
+    <canvas id="snow-canvas"></canvas>
+
+    <div id="c-dot"></div>
+    <div id="c-out"></div>
+
+    <main class="min-h-screen flex flex-col items-center justify-center relative" id="main-content">
+        <h1 class="font-['Orbitron'] text-8xl font-black tracking-tighter text-white mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">ARCESNW</h1>
+        <p class="font-['Orbitron'] tracking-[20px] opacity-40 text-sm mb-10">WINTER EDITION</p>
+        <div class="px-10 py-5 border border-white/10 bg-white/5 backdrop-blur-md rounded-lg cursor-pointer hover:border-[#00f2ff] transition-all group" onclick="copyIP()">
+            <span class="font-mono text-xl tracking-widest uppercase group-hover:text-[#00f2ff]">play.arcesnw.com</span>
+        </div>
+    </main>
+
+    <div id="admin-panel">
+        <div class="max-w-7xl mx-auto">
+            <header class="flex justify-between items-center mb-10 border-b border-white/5 pb-6">
+                <div>
+                    <h2 class="font-['Orbitron'] text-3xl text-[#00f2ff]">FROST CORE TERMINAL</h2>
+                    <p class="text-[10px] font-mono opacity-30 mt-1 uppercase tracking-[3px]">Authorized Admin: UMUT</p>
+                </div>
+                <button onclick="toggleAdmin()" class="bg-white/5 border border-white/10 px-6 py-2 rounded text-xs hover:bg-red-500 transition-all font-['Orbitron']">SİSTEMİ KAPAT</button>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="control-card border-l-4 border-sky-400">
+                    <p class="text-[10px] opacity-50 uppercase">Online</p>
+                    <p class="text-3xl font-bold">1,842</p>
+                </div>
+                <div class="control-card border-l-4 border-emerald-400">
+                    <p class="text-[10px] opacity-50 uppercase">Uptime</p>
+                    <p class="text-3xl font-bold">99.9%</p>
+                </div>
+                <div class="control-card border-l-4 border-yellow-400">
+                    <p class="text-[10px] opacity-50 uppercase">Ping</p>
+                    <p class="text-3xl font-bold">14ms</p>
+                </div>
+                <div class="control-card border-l-4 border-red-400">
+                    <p class="text-[10px] opacity-50 uppercase">TPS</p>
+                    <p class="text-3xl font-bold">20.0</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="control-card">
+                    <h3 class="text-[11px] font-['Orbitron'] text-sky-400 mb-4 tracking-wider underline">OYUNCU YÖNETİMİ</h3>
+                    <button class="btn-action btn-blue" onclick="log('Tüm oyunculara 10k Akçe gönderildi!')">HERKESE PARA VER</button>
+                    <button class="btn-action btn-red" onclick="log('Tüm yasaklı oyuncuların affı reddedildi.')">BAN AFFINI KAPAT</button>
+                    <button class="btn-action" onclick="log('Chat temizlendi.')">CHATI TEMİZLE</button>
+                </div>
+
+                <div class="control-card">
+                    <h3 class="text-[11px] font-['Orbitron'] text-emerald-400 mb-4 tracking-wider underline">EKONOMİ MOTORU</h3>
+                    <button class="btn-action btn-blue" onclick="log('Altın fiyatları %20 artırıldı.')">ALTIN FİYATI (+) </button>
+                    <button class="btn-action btn-blue" onclick="log('Elmas fiyatları %15 düşürüldü.')">ELMAS FİYATI (-) </button>
+                    <button class="btn-action" onclick="log('Market stokları yenilendi.')">STOKLARI FULLA</button>
+                </div>
+
+                <div class="control-card">
+                    <h3 class="text-[11px] font-['Orbitron'] text-red-400 mb-4 tracking-wider underline">GÜVENLİK DUVARI</h3>
+                    <button class="btn-action btn-red" onclick="log('Anti-Cheat hassasiyeti artırıldı!')">HİLE KORUMASI MAX</button>
+                    <button class="btn-action" onclick="log('Yeni backup alındı.')">SİSTEM YEDEKLE</button>
+                    <button class="btn-action btn-red" onclick="log('Bakım modu aktif edildi.')">BAKIM MODU</button>
+                </div>
+            </div>
+
+            <div class="mt-8 control-card bg-black/60 font-mono text-[11px] text-cyan-400 h-64 overflow-y-auto" id="terminal">
+                <p>> Frost Engine v2.0 Initialized...</p>
+                <p>> Snow particles rendered successfully.</p>
+                <p>> System check: Operational.</p>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="toggleAdmin()" style="z-index: 100001;" class="fixed bottom-6 right-6 w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/20 hover:text-[#00f2ff] hover:border-[#00f2ff] transition-all">
+        <i class="fas fa-snowflake text-sm"></i>
+    </button>
+
+    <script>
+        // KAR YAĞIŞI MOTORU (CANVAS)
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * -canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speed = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+                this.velX = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.y += this.speed;
+                this.x += this.velX;
+                if (this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initSnow() {
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        initSnow();
+        animate();
+
+        // CURSOR
+        const dot = document.getElementById('c-dot');
+        const out = document.getElementById('c-out');
+        window.addEventListener('mousemove', (e) => {
+            dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            out.style.transform = `translate(${e.clientX - 17}px, ${e.clientY - 17}px)`;
+        });
+
+        // ADMIN TOGGLE
+        function toggleAdmin() {
+            const panel = document.getElementById('admin-panel');
+            const main = document.getElementById('main-content');
+            if (panel.style.display === "none" || panel.style.display === "") {
+                panel.style.display = "block";
+                main.style.filter = "blur(15px)";
+                document.body.style.cursor = "default";
+            } else {
+                panel.style.display = "none";
+                main.style.filter = "none";
+                document.body.style.cursor = "none";
+            }
+        }
+
+        function log(msg) {
+            const term = document.getElementById('terminal');
+            const time = new Date().toLocaleTimeString();
+            term.innerHTML += `<p class="mt-1 opacity-50">[${time}] > ${msg}</p>`;
+            term.scrollTop = term.scrollHeight;
+        }
+
+        function copyIP() {
+            navigator.clipboard.writeText("play.arcesnw.com");
+            alert("Sunucu IP adresi kopyalandı! Kış macerasına hazır mısın?");
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArcesNW | Quantum Admin Control</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
