@@ -1,194 +1,103 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+# ==========================================================================
+# ARCESNW SKYBLOCK - WEB THEME CONFIGURATION (MASTER YML)
+# ==========================================================================
+# Bu dosya sitenin CSS değişkenlerini ve görsel kimliğini tanımlar.
+# GitHub Pages üzerinde dinamik tema yönetimi için tasarlanmıştır.
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+metadata:
+  site-name: "ArcesNW Skyblock"
+  version: "2.5.0"
+  author: "ArcesNW Development"
+  framework: "Tailwind CSS + Orbitron System"
 
-/* ArcesNW Design System - Skyblock Theme */
+# --------------------------------------------------------------------------
+# 1. CORE COLOR TOKENS (HSL VALUES)
+# --------------------------------------------------------------------------
+theme-colors:
+  light:
+    background: "hsl(210, 50%, 98%)" # Temiz gökyüzü beyazı
+    foreground: "hsl(220, 60%, 10%)" # Derin okyanus metni
+    primary: "hsl(200, 85%, 45%)"    # Arces Sky Blue
+    accent: "hsl(145, 65%, 42%)"     # Minecraft Çimen Yeşili
+    secondary: "hsl(210, 30%, 90%)"  # Bulut Grisi
+    
+  dark:
+    background: "hsl(220, 60%, 8%)"  # Gece gökyüzü siyahı
+    foreground: "hsl(210, 30%, 95%)" # Yıldız ışığı metni
+    primary: "hsl(200, 90%, 55%)"    # Parlayan Neon Mavi
+    accent: "hsl(145, 70%, 50%)"     # Radyaktif Zümrüt
+    card: "hsl(220, 50%, 12%)"       # Gece Adası Kartı
 
-@layer base {
-  :root {
-    /* Sky Blue Theme - Light */
-    --background: 210 50% 98%;
-    --foreground: 220 60% 10%;
+  special:
+    gold: "hsl(45, 100%, 55%)"       # VIP/Efsanevi Altın
+    diamond: "hsl(185, 75%, 55%)"    # Elmas Rütbe
+    obsidian: "hsl(260, 50%, 15%)"   # Yetkili/Admin Rengi
 
-    --card: 210 40% 96%;
-    --card-foreground: 220 60% 10%;
+# --------------------------------------------------------------------------
+# 2. GRADIENT ENGINES (Dinamik Geçişler)
+# --------------------------------------------------------------------------
+gradients:
+  sky-render:
+    type: "linear"
+    direction: "180deg"
+    stops: ["hsl(200, 85%, 70%)", "hsl(220, 75%, 40%)"]
+  
+  hero-overlay:
+    type: "conic"
+    intensity: "0.03 opacity"
+    pattern: "minecraft-grid" # SVG Pattern tanımlı
+  
+  card-glass:
+    opacity: 0.8
+    blur: "20px"
+    border-gradient: "hsl(var(--primary)) to hsl(var(--accent))"
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 60% 10%;
+# --------------------------------------------------------------------------
+# 3. INTERACTIVE & MOTION (Animasyon Kontrolü)
+# --------------------------------------------------------------------------
+animations:
+  island-float:
+    name: "floating-animation"
+    duration: "6s"
+    curve: "ease-in-out"
+    offset-y: "-20px"
+    loop: "infinite"
 
-    /* Primary - Deep Sky Blue */
-    --primary: 200 85% 45%;
-    --primary-foreground: 0 0% 100%;
+  aura-pulse:
+    name: "pulse-glow"
+    duration: "2s"
+    colors: ["rgba(200, 90, 55, 0.3)", "rgba(200, 90, 55, 0.6)"]
+    targets: [".glow-effect", ".primary-button"]
 
-    /* Secondary - Soft Cloud */
-    --secondary: 210 30% 90%;
-    --secondary-foreground: 220 60% 15%;
+# --------------------------------------------------------------------------
+# 4. TYPOGRAPHY SYSTEM
+# --------------------------------------------------------------------------
+typography:
+  headings:
+    family: "'Orbitron', sans-serif"
+    weight: [700, 900]
+    letter-spacing: "0.1em"
+    text-transform: "uppercase"
+  
+  body-text:
+    family: "'Inter', system-ui"
+    weight: [300, 400, 600]
+    line-height: 1.6
 
-    --muted: 210 25% 92%;
-    --muted-foreground: 220 15% 45%;
+# --------------------------------------------------------------------------
+# 5. UI COMPONENTS (Tailwind Component Mapping)
+# --------------------------------------------------------------------------
+components:
+  pixel-border:
+    size: "4px"
+    rendering: "pixelated"
+    gradient-power: 1 # linear-gradient 1
+  
+  shadows:
+    soft: "0 4px 20px -4px rgba(210, 50, 20, 0.1)"
+    card: "0 8px 32px -8px rgba(210, 50, 20, 0.15)"
+    glow: "0 0 40px rgba(200, 90, 55, 0.25)"
 
-    /* Accent - Emerald Green (Minecraft grass) */
-    --accent: 145 65% 42%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 75% 55%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 210 30% 85%;
-    --input: 210 30% 88%;
-    --ring: 200 85% 50%;
-
-    --radius: 0.75rem;
-
-    /* Custom colors */
-    --sky-light: 200 80% 75%;
-    --sky-dark: 210 90% 25%;
-    --cloud: 210 20% 95%;
-    --gold: 45 100% 55%;
-    --diamond: 185 75% 55%;
-    --emerald: 145 70% 45%;
-    --obsidian: 260 50% 15%;
-
-    /* Gradients */
-    --gradient-sky: linear-gradient(180deg, hsl(200 85% 70%) 0%, hsl(210 80% 55%) 50%, hsl(220 75% 40%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(200 90% 35%) 0%, hsl(220 85% 25%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(210 40% 98%) 0%, hsl(210 35% 94%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(45 100% 60%) 0%, hsl(35 95% 50%) 100%);
-    --gradient-diamond: linear-gradient(135deg, hsl(185 80% 65%) 0%, hsl(195 75% 50%) 100%);
-
-    /* Shadows */
-    --shadow-soft: 0 4px 20px -4px hsl(210 50% 20% / 0.1);
-    --shadow-glow: 0 0 30px hsl(200 85% 50% / 0.3);
-    --shadow-card: 0 8px 32px -8px hsl(210 50% 20% / 0.15);
-  }
-
-  .dark {
-    /* Dark Skyblock Night Theme */
-    --background: 220 60% 8%;
-    --foreground: 210 30% 95%;
-
-    --card: 220 50% 12%;
-    --card-foreground: 210 30% 95%;
-
-    --popover: 220 55% 10%;
-    --popover-foreground: 210 30% 95%;
-
-    --primary: 200 90% 55%;
-    --primary-foreground: 220 60% 8%;
-
-    --secondary: 220 40% 18%;
-    --secondary-foreground: 210 30% 90%;
-
-    --muted: 220 35% 16%;
-    --muted-foreground: 210 20% 60%;
-
-    --accent: 145 70% 50%;
-    --accent-foreground: 220 60% 8%;
-
-    --destructive: 0 70% 50%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 40% 20%;
-    --input: 220 40% 18%;
-    --ring: 200 90% 55%;
-
-    --sky-light: 200 70% 55%;
-    --sky-dark: 220 80% 12%;
-    --cloud: 220 30% 20%;
-
-    --gradient-sky: linear-gradient(180deg, hsl(220 70% 20%) 0%, hsl(230 65% 12%) 50%, hsl(240 60% 8%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(220 80% 15%) 0%, hsl(230 75% 8%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(220 50% 14%) 0%, hsl(220 55% 10%) 100%);
-
-    --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.4);
-    --shadow-glow: 0 0 40px hsl(200 90% 55% / 0.25);
-    --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.5);
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Orbitron', 'Inter', sans-serif;
-  }
-}
-
-@layer components {
-  .text-gradient-sky {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(200 90% 55%) 0%, hsl(185 80% 50%) 100%);
-  }
-
-  .text-gradient-gold {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(45 100% 60%) 0%, hsl(35 95% 45%) 100%);
-  }
-
-  .bg-hero-pattern {
-    background-image: var(--gradient-hero);
-    position: relative;
-  }
-
-  .bg-hero-pattern::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    pointer-events: none;
-  }
-
-  .glass-card {
-    @apply backdrop-blur-xl border;
-    background: linear-gradient(145deg, hsl(var(--card) / 0.8), hsl(var(--card) / 0.6));
-    box-shadow: var(--shadow-card);
-  }
-
-  .glow-effect {
-    box-shadow: var(--shadow-glow);
-  }
-
-  .minecraft-pixel-border {
-    image-rendering: pixelated;
-    border-style: solid;
-    border-width: 4px;
-    border-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%) 1;
-  }
-
-  .floating-animation {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-  }
-
-  .pulse-glow {
-    animation: pulseGlow 2s ease-in-out infinite;
-  }
-
-  @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 20px hsl(200 90% 55% / 0.3); }
-    50% { box-shadow: 0 0 40px hsl(200 90% 55% / 0.6); }
-  }
-}
-
-@layer utilities {
-  .font-display {
-    font-family: 'Orbitron', 'Inter', sans-serif;
-  }
-
-  .font-body {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-}
+# ==========================================================================
+# END OF THEME CONFIG
+# ==========================================================================
